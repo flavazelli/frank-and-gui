@@ -1,4 +1,4 @@
-package logExpense;
+package com.example.francescovalela.trkr.models;
 
 import java.util.Date;
 

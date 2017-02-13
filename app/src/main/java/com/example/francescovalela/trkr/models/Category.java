@@ -1,4 +1,4 @@
-package logExpense;
+package com.example.francescovalela.trkr.models;
 
 /**
  * Created by francescovalela on 2017-02-12.
