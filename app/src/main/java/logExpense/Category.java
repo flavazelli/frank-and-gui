@@ -2,6 +2,8 @@ package logExpense;
 
 /**
  * Created by francescovalela on 2017-02-12.
+ *
+ * Allows for
  */
 
 public class Category {
@@ -9,7 +11,6 @@ public class Category {
     private String name;
     private int id;
 
-    //do i need?
     public Category(String name, int id) {
         this.name = name;
         this.id = id;
