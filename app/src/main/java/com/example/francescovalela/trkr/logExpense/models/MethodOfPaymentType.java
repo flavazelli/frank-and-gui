@@ -1,4 +1,4 @@
-package com.example.francescovalela.trkr.models;
+package com.example.francescovalela.trkr.logExpense.models;
 
 /**
  * Created by flavazelli on 2017-02-12.
