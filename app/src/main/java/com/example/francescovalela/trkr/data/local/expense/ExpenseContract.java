@@ -23,14 +23,4 @@ public class ExpenseContract  {
         public static final String COLUMN_NAME_METHODOFPAYMENTID = "method_of_payment_id";
         public static final String COLUMN_NAME_CATEGORYID = "category_id";
     }
-    
-    private static final String SQL_CREATE_ENTRIES_EXPENSE =
-            "CREATE TABLE " + ExpenseEntry.TABLE_NAME + " (" +
-                    ExpenseEntry._ID + " INTEGER PRIMARY KEY," +
-                    ExpenseEntry.COLUMN_NAME_DATE + " INTEGER NOT NULL," +
-                    ExpenseEntry.COLUMN_NAME_NAME + " TEXT NOT NULL," +
-                    ExpenseEntry.COLUMN_NAME_COST + " REAL NOT NULL," +
-                    ExpenseEntry.COLUMN_NAME_METHODOFPAYMENTID + " INTEGER NOT NULL," +
-                    ExpenseEntry.COLUMN_NAME_CATEGORYID + " INTEGER NOT NULL" +
-                    ");";
 }
