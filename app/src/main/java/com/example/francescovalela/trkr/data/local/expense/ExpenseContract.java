@@ -41,22 +41,6 @@ public class ExpenseContract  {
                     CategoryEntry.COLUMN_NAME_NAME + " TEXT NOT NULL" +
                     ");";
 
-    private static final String SQL_CREATE_ENTRIES_METHODOFPAYMENT =
-            "CREATE TABLE " + MethodOfPaymentEntry.TABLE_NAME + " (" +
-                    MethodOfPaymentEntry._ID + " INTEGER PRIMARY KEY," +
-                    MethodOfPaymentEntry.COLUMN_NAME_NICKNAME + " TEXT NOT NULL," +
-                    MethodOfPaymentEntry.COLUMN_NAME_TYPEID + " INTEGER NOT NULL," +
-                    MethodOfPaymentEntry.COLUMN_NAME_DATE + " INTEGER NOT NULL" +
-                    ");";
-
-    private static final String SQL_CREATE_ENTRIES_METHODOFPAYMENTTYPE =
-            "CREATE TABLE " + MethodOfPaymentTypeEntry.TABLE_NAME + " (" +
-                    MethodOfPaymentTypeEntry._ID + " INTEGER PRIMARY KEY," +
-                    MethodOfPaymentTypeEntry.COLUMN_NAME_ID + " INTEGER NOT NULL," +
-                    MethodOfPaymentTypeEntry.COLUMN_NAME_NAME + " TEXT NOT NULL" +
-                    ");";
-
-
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + ExpenseEntry.TABLE_NAME + ", " +
                     CategoryEntry.TABLE_NAME + ", " +
