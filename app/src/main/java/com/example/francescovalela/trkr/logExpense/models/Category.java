@@ -1,5 +1,7 @@
 package com.example.francescovalela.trkr.logExpense.models;
 
+import java.util.UUID;
+
 /**
  * Created by francescovalela on 2017-02-12.
  *

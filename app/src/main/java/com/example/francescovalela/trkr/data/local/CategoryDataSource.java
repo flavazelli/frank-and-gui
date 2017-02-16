@@ -1,5 +1,11 @@
 package com.example.francescovalela.trkr.data.local;
 
+import android.support.annotation.NonNull;
+
+import com.example.francescovalela.trkr.logExpense.models.Category;
+
+import java.util.List;
+
 /**
  * Created by francescovalela on 2017-02-14.
  *
@@ -12,9 +18,42 @@ package com.example.francescovalela.trkr.data.local;
  */
 
 
-// Implements CRUD
+// Main entry point for accessing category data
 public interface CategoryDataSource {
 
+    //load category data into a list & checks if data isn't available
+    interface LoadCategoryCallback {
 
+        void onCategoriesLoaded(List<Category> categories);
+        void onDataNotAvailable();
+    }
 
+    interface GetCategoryCallback {
+
+        void onCategoryLoaded(Category category);
+        void onDataNotAvailable();
+    }
+
+    void getCategories(@NonNull LoadCategoryCallback callback);
+
+    void getCategory(@NonNull String categoryId, @NonNull GetCategoryCallback callback);
+
+    void saveCategory(@NonNull Category category);
+
+    // TODO Do we need these?
+//    void completeCategory(@NonNull Category category);
+//
+//    void completeCategory(@NonNull String categoryId);
+//
+//    void activateCategory(@NonNull Category category);
+//
+//    void activateCategory(@NonNull String categoryId);
+//
+//    void clearCompletedCategories();
+
+    void refreshCategories();
+
+    void deleteAllCategories();
+
+    void deleteCategory(@NonNull String categoryId);
 }
