@@ -21,7 +21,7 @@ import java.util.List;
 // Main entry point for accessing category data
 public interface CategoryDataSource {
 
-    //load category data into a list & checks if data isn't available
+    //load category data into a list & checks if data is available
     interface LoadCategoryCallback {
 
         void onCategoriesLoaded(List<Category> categories);
@@ -39,8 +39,6 @@ public interface CategoryDataSource {
     void getCategory(@NonNull String categoryId, @NonNull GetCategoryCallback callback);
 
     void saveCategory(@NonNull Category category);
-
-    void refreshCategories();
 
     void deleteAllCategories();
 

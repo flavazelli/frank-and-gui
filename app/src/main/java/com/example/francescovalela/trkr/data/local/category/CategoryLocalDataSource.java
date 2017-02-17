@@ -133,12 +133,6 @@ public class CategoryLocalDataSource implements CategoryDataSource {
         db.insert(CategoryEntry.TABLE_NAME, null, values);
 
         db.close();
-
-    }
-
-    @Override
-    public void refreshCategories() {
-        //refresh in CategoryRepository
     }
 
     @Override
