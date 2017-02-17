@@ -12,11 +12,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by francescovalela on 2017-02-16.
- *
- * Loads categories from data source (local, for now) into a cache.
- */
+// Mediator between DataSource and domain layer
+// Should never call DataSource from domain layer
 
 public class CategoryRepository implements CategoryDataSource {
 
@@ -34,11 +31,7 @@ public class CategoryRepository implements CategoryDataSource {
     }
 
 
-    /** Returns the single instance of this class, creating it if necessary.
-     *
-     * @param categoryLocalDataSource  the device storage data source.
-     * @return the {@link CategoryRepository} instance
-     * */
+    // Returns the single instance of this class, creating it if necessary.
     public static CategoryRepository getInstance(@NonNull CategoryDataSource categoryLocalDataSource) {
         if (INSTANCE == null) {
             INSTANCE = new CategoryRepository(categoryLocalDataSource);
@@ -47,20 +40,14 @@ public class CategoryRepository implements CategoryDataSource {
     }
 
 
-    /**
-     * Used to force {@link #getInstance(CategoryDataSource)} to create a new instance
-     * next time it's called.
-     */
+    // Used to force {@link #getInstance(CategoryDataSource)} to create a new instance
     public static void destroyInstance() {
         INSTANCE = null;
     }
 
-    /**
-     * Gets categories from cache, local data source (SQLite)
-     * <p>
-     * Note: {@link LoadCategoryCallback#onDataNotAvailable()} is fired if all data sources fail to
-     * get the data.
-     */
+    // Gets categories from cache or local data source (SQLite db)
+    // onDataNotAvailable() is fired if all data sources (currently just SQLite) fail to get the data
+    @Override
     public void getCategories(@NonNull final LoadCategoryCallback callback) {
         checkNotNull(callback);
 
@@ -70,7 +57,7 @@ public class CategoryRepository implements CategoryDataSource {
             return;
         }
 
-        // Query the local storage if available. If not, query the network.
+        // Queries the local storage
         mCategoryLocalDataSource.getCategories(new LoadCategoryCallback() {
             @Override
             public void onCategoriesLoaded(List<Category> categories) {
@@ -79,13 +66,15 @@ public class CategoryRepository implements CategoryDataSource {
             }
 
             @Override
-            // would put getCategoriesRemoteDataSource(callback) if connected to remote db
+            // Would put getCategoriesRemoteDataSource(callback) if connected to remote db
             public void onDataNotAvailable() {
 
             }
         });
     }
 
+    // Gets single category from cache or local data source (SQLite db)
+    // onDataNotAvailable() is fired if all data sources (currently just SQLite) fail to get the data
     @Override
     public void getCategory(@NonNull String categoryId, @NonNull final GetCategoryCallback callback) {
         checkNotNull(categoryId);
@@ -99,9 +88,7 @@ public class CategoryRepository implements CategoryDataSource {
             return;
         }
 
-        // Load from server/persisted if needed.
-
-        // Is the category in the local data source? If not, query the network.
+        // Queries the local storage
         mCategoryLocalDataSource.getCategory(categoryId, new GetCategoryCallback() {
             @Override
             public void onCategoryLoaded(Category category) {
@@ -114,13 +101,14 @@ public class CategoryRepository implements CategoryDataSource {
             }
 
             @Override
-            // would put getCategoriesRemoteDataSource(callback) if connected to remote db
+            // Would put getCategoriesRemoteDataSource(callback) if connected to remote db
             public void onDataNotAvailable() {
 
             }
         });
     }
 
+    // Saves memory in cache
     @Override
     public void saveCategory(@NonNull Category category) {
         checkNotNull(category);
