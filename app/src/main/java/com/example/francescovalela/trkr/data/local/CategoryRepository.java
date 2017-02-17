@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import static android.support.test.espresso.core.deps.guava.base.Preconditions.checkNotNull;
 import android.support.annotation.Nullable;
 
-import com.example.francescovalela.trkr.data.local.CategoryDataSource;
 import com.example.francescovalela.trkr.logExpense.models.Category;
 
 import java.util.ArrayList;
@@ -110,7 +109,7 @@ public class CategoryRepository implements CategoryDataSource {
                 if (mCachedCategory == null) {
                     mCachedCategory = new LinkedHashMap<>();
                 }
-                mCachedCategory.put(String.valueOf(category.getId()), category); //TODO Again, ID is string in the example. Do we change to string as well?
+                mCachedCategory.put(String.valueOf(category.getId()), category);
                 callback.onCategoryLoaded(category);
             }
 
@@ -163,7 +162,7 @@ public class CategoryRepository implements CategoryDataSource {
         }
         mCachedCategory.clear();
         for (Category category : categories) {
-            mCachedCategory.put(String.valueOf(category.getId()), category); //TODO ID is string in the example. Do we change to string as well?
+            mCachedCategory.put(String.valueOf(category.getId()), category);
         }
         mCacheIsDirty = false;
     }
@@ -176,7 +175,7 @@ public class CategoryRepository implements CategoryDataSource {
     }
 
     @Nullable
-    private Category getCategoryWithId(@NonNull String id) { //TODO Again, ID is string in the example. Do we change to string as well?
+    private Category getCategoryWithId(@NonNull String id) {
         checkNotNull(id);
         if (mCachedCategory == null || mCachedCategory.isEmpty()) {
             return null;
@@ -184,65 +183,4 @@ public class CategoryRepository implements CategoryDataSource {
             return mCachedCategory.get(id);
         }
     }
-    //TODO check if we need to "complete" a category
-//
-//    @Override
-//    public void completeCategory(@NonNull Category category) {
-//        checkNotNull(category;
-//        mCategoryLocalDataSource.completeCategory(category;
-//
-//        Category completedCategory = new Category(category.getName(), category.getId());
-//
-//        // Do in memory cache update to keep the app UI up to date
-//        if (mCachedCategory == null) {
-//            mCachedCategory = new LinkedHashMap<>();
-//        }
-//        mCachedCategory.put(String.valueOf(category.getId()), completedCategory);//TODO Again, ID is string in the example. Do we change to string as well?
-//    }
-//
-//    @Override
-//    public void completeCategory(@NonNull String categoryId) {
-//        checkNotNull(categoryId);
-//        completeCategory(getCategoryIdWithId(categoryId));
-//    }
-
-    // TODO Check if we need "activate" category
-//    @Override
-//    public void activateCategory(@NonNull Category category) {
-//
-//    }
-//
-//    @Override
-//    public void activateCategory(@NonNull String categoryId) {
-//
-//    }
-
-    //TODO will need if we have completed category
-//    @Override
-//    public void clearCompletedCategories() {
-//
-//    }
-
-
-
-/*  /**
-     * only use if adding remote data source
-     * @param callback
-     //
-  private void getTasksFromRemoteDataSource(@NonNull final LoadTasksCallback callback) {
-       mTasksRemoteDataSource.getTasks(new LoadTasksCallback() {
-          @Override
-          public void onTasksLoaded(List<Task> tasks) {
-              refreshCache(tasks);
-              refreshLocalDataSource(tasks);
-              callback.onTasksLoaded(new ArrayList<>(mCachedTasks.values()));
-          }
-
-          @Override
-          public void onDataNotAvailable() {
-              callback.onDataNotAvailable();
-          }
-      });
-    }
-*/
 }
