@@ -40,17 +40,6 @@ public interface CategoryDataSource {
 
     void saveCategory(@NonNull Category category);
 
-    // TODO Do we need these?
-//    void completeCategory(@NonNull Category category);
-//
-//    void completeCategory(@NonNull String categoryId);
-//
-//    void activateCategory(@NonNull Category category);
-//
-//    void activateCategory(@NonNull String categoryId);
-//
-//    void clearCompletedCategories();
-
     void refreshCategories();
 
     void deleteAllCategories();
