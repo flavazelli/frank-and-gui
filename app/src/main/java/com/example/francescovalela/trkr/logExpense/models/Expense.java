@@ -2,6 +2,8 @@ package com.example.francescovalela.trkr.logExpense.models;
 
 import java.util.Date;
 
+import static android.R.attr.id;
+
 /**
  * Created by francescovalela on 2017-02-12.
  * Allows user to log an expense
@@ -15,25 +17,36 @@ public class Expense {
     private int methodOfPaymentId, categoryId;
 
     //Constructor for inputting all attributes except date which defaults to the current time
-    public Expense(double cost, double locationLong, double locationLat, int methodOfPaymentId, int categoryId, String name) {
+    public Expense(String name, double cost, double locationLat, double locationLong, int methodOfPaymentId, int categoryId) {
+        this.name = name;
         this.cost = cost;
-        this.locationLong = locationLong;
         this.locationLat = locationLat;
+        this.locationLong = locationLong;
         this.methodOfPaymentId = methodOfPaymentId;
         this.categoryId = categoryId;
-        this.name = name;
         Date currentDate = new Date();
         date = currentDate.getTime(); //defaults to the current time in milli
     }
 
     //Constructor for inputting all attributes including date
-    public Expense(String name, double cost, double locationLong, double locationLat, int methodOfPaymentId, int categoryId, long date) {
+    public Expense(long date, String name, double cost, double locationLat, double locationLong, int methodOfPaymentId, int categoryId) {
+        this.date = date;
         this.name = name;
         this.cost = cost;
-        this.locationLong = locationLong;
         this.locationLat = locationLat;
+        this.locationLong = locationLong;
         this.methodOfPaymentId = methodOfPaymentId;
         this.categoryId = categoryId;
+    }
+
+    public Date getDate() {
+
+        Date currentDate = new Date(date);
+
+        return currentDate;
+    }
+
+    public void setDate(long date) {
         this.date = date;
     }
 
@@ -61,24 +74,11 @@ public class Expense {
         return location;
     }
 
-    public void setLocationLong(double locationLong) {
-        this.locationLong = locationLong;
-    }
-
     public void setLocationLat(double locationLat) {
         this.locationLat = locationLat;
     }
 
-    public Date getDate() {
-
-        Date currentDate = new Date(date);
-
-        return currentDate;
-    }
-
-    public void setDate(long date) {
-        this.date = date;
-    }
+    public void setLocationLong(double locationLong) { this.locationLong = locationLong; }
 
     //TODO: getMethodOfPayment - search internal memory to get methodOfPayment from methodOfPaymentID
     /*

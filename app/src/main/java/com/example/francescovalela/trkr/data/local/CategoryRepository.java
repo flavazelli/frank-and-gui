@@ -103,7 +103,7 @@ public class CategoryRepository implements CategoryDataSource {
     public void deleteCategory(@NonNull String categoryId) {
         mCategoryLocalDataSource.deleteCategory(checkNotNull(categoryId));
     }
-    
+
     private void refreshLocalDataSource(List<Category> categories) {
         mCategoryLocalDataSource.deleteAllCategories();
         for (Category category : categories) {

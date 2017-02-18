@@ -20,6 +20,8 @@ public class ExpenseContract  {
         public static final String COLUMN_NAME_DATE = "date";
         public static final String COLUMN_NAME_NAME = "name";
         public static final String COLUMN_NAME_COST = "cost";
+        public static final String COLUMN_NAME_LOCATIONLONG = "locationLong";
+        public static final String COLUMN_NAME_LOCATIONLAT = "locationLat";
         public static final String COLUMN_NAME_METHODOFPAYMENTID = "method_of_payment_id";
         public static final String COLUMN_NAME_CATEGORYID = "category_id";
     }
