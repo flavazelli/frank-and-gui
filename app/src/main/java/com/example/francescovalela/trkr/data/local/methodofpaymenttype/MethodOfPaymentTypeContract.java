@@ -16,7 +16,6 @@ public class MethodOfPaymentTypeContract {
 
     public static abstract class MethodOfPaymentTypeEntry implements BaseColumns {
         public static final String TABLE_NAME = "method_of_payment_type";
-        public static final String COLUMN_NAME_ID = "id";
         public static final String COLUMN_NAME_NAME = "name";
     }
 }

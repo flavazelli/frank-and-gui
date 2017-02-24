@@ -18,11 +18,30 @@ public class CategoryDBHelper extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_ENTRIES_CATEGORY =
             "CREATE TABLE " + CategoryContract.CategoryEntry.TABLE_NAME + " (" +
-                    CategoryContract.CategoryEntry._ID + " INTEGER PRIMARY KEY," +
-                    CategoryContract.CategoryEntry.COLUMN_NAME_ID + " INTEGER NOT NULL," +
                     CategoryContract.CategoryEntry.COLUMN_NAME_NAME + " TEXT NOT NULL" +
                     ");";
 
+    private static final String INSERT_DEFAULT_DATA = "INSERT INTO " + CategoryContract.CategoryEntry.TABLE_NAME +
+            "VALUES (" +
+            "'Automobile'," +
+            "'Bank Charges', " +
+            "'Charity', " +
+            "'Childcare', " +
+            "'Clothing', " +
+            "'Credit Card Fees', " +
+            "'Education', " +
+            "'Events' , " +
+            "'Food & Drinks', " +
+            "'Gifts', " +
+            "'Healthcare', " +
+            "'Household', " +
+            "'Insurance', " +
+            "'Leisure', " +
+            "'Hobbies', " +
+            "'Loans', " +
+            "'Pet Care', " +
+            "'Vacation'" +
+            ")";
     private static final String SQL_DELETE_ENTRIES_CATEGORY =
             "DROP TABLE IF EXISTS " + CategoryContract.CategoryEntry.TABLE_NAME;
 
@@ -32,6 +51,7 @@ public class CategoryDBHelper extends SQLiteOpenHelper {
 
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_ENTRIES_CATEGORY);
+        db.execSQL(INSERT_DEFAULT_DATA);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

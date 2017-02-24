@@ -16,7 +16,6 @@ public final class CategoryContract {
 
     public static abstract class CategoryEntry implements BaseColumns {
         public static final String TABLE_NAME = "category";
-        public static final String COLUMN_NAME_ID = "id";
         public static final String COLUMN_NAME_NAME = "name";
 
     }

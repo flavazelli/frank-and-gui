@@ -16,14 +16,13 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_ENTRIES_EXPENSE =
             "CREATE TABLE " + ExpenseContract.ExpenseEntry.TABLE_NAME + " (" +
-                    ExpenseContract.ExpenseEntry._ID + " INTEGER PRIMARY KEY," +
-                    ExpenseContract.ExpenseEntry.COLUMN_NAME_DATE + " INTEGER NOT NULL," +
                     ExpenseContract.ExpenseEntry.COLUMN_NAME_NAME + " TEXT NOT NULL," +
                     ExpenseContract.ExpenseEntry.COLUMN_NAME_COST + " REAL NOT NULL," +
                     ExpenseContract.ExpenseEntry.COLUMN_NAME_LOCATIONLONG + " REAL NOT NULL," +
                     ExpenseContract.ExpenseEntry.COLUMN_NAME_LOCATIONLAT + " REAL NOT NULL," +
                     ExpenseContract.ExpenseEntry.COLUMN_NAME_METHODOFPAYMENTID + " INTEGER NOT NULL," +
                     ExpenseContract.ExpenseEntry.COLUMN_NAME_CATEGORYID + " INTEGER NOT NULL" +
+                    ExpenseContract.ExpenseEntry.COLUMN_NAME_DATE + " INTEGER NOT NULL," +
                     ");";
 
     private static final String SQL_DELETE_ENTRIES_EXPENSE =

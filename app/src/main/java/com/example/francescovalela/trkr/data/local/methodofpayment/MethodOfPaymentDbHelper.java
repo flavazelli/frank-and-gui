@@ -6,6 +6,8 @@ import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.francescovalela.trkr.logExpense.models.MethodOfPayment;
+
 import static com.example.francescovalela.trkr.data.local.methodofpayment.MethodOfPaymentContract.*;
 
 /**
@@ -20,12 +22,10 @@ public class MethodOfPaymentDbHelper extends SQLiteOpenHelper{
 
     private static final String SQL_CREATE_METHODOFPAYMENT =
             "CREATE TABLE " + MethodOfPaymentEntry.TABLE_NAME + " (" +
-                    MethodOfPaymentEntry._ID + " INTEGER PRIMARY KEY," +
                     MethodOfPaymentEntry.COLUMN_NAME_NICKNAME + " TEXT NOT NULL," +
                     MethodOfPaymentEntry.COLUMN_NAME_TYPEID + " INTEGER NOT NULL," +
                     MethodOfPaymentEntry.COLUMN_NAME_DATE + " INTEGER NOT NULL" +
                     ");";
-
     private static final String SQL_DELETE_METHODOFPAYMENT =
             "DROP TABLE IF EXISTS " + MethodOfPaymentEntry.TABLE_NAME;
 

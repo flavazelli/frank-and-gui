@@ -1,4 +1,4 @@
-package com.example.francescovalela.trkr.data.local.methodofpaymenttype;
+package com.example.francescovalela.trkr.data.local.methodofpayment;
 
 /**
  * Created by flavazelli on 2017-02-14.

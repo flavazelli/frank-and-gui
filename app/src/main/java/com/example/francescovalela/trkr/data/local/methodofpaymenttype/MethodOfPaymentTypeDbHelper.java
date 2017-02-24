@@ -19,10 +19,13 @@ public class MethodOfPaymentTypeDbHelper extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_METHODOFPAYMENTTYPE =
             "CREATE TABLE " + MethodOfPaymentTypeEntry.TABLE_NAME + " (" +
-                    MethodOfPaymentTypeEntry._ID + " INTEGER PRIMARY KEY," +
-                    MethodOfPaymentTypeEntry.COLUMN_NAME_ID + " INTEGER NOT NULL," +
                     MethodOfPaymentTypeEntry.COLUMN_NAME_NAME + " TEXT NOT NULL" +
                     ");";
+
+    private static final String INSERT_DEFAULT_DATA =
+            "INSERT INTO" +  MethodOfPaymentTypeEntry.TABLE_NAME + "(" +
+                    MethodOfPaymentTypeEntry.COLUMN_NAME_NAME + ") VALUES " +
+                    "('Cash'), ('Credit Card'), ('Interac')";
 
     private static final String SQL_DELETE_METHODOFPAYMENTTYPE =
             "DROP TABLE IF EXISTS " + MethodOfPaymentTypeEntry.TABLE_NAME;
@@ -33,6 +36,7 @@ public class MethodOfPaymentTypeDbHelper extends SQLiteOpenHelper {
 
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_METHODOFPAYMENTTYPE);
+        db.execSQL(INSERT_DEFAULT_DATA);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

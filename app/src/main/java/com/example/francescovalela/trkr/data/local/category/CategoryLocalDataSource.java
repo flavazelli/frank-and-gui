@@ -46,7 +46,6 @@ public class CategoryLocalDataSource implements CategoryDataSource {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] projection = {
-                CategoryEntry.COLUMN_NAME_ID,
                 CategoryEntry.COLUMN_NAME_NAME
         };
 
@@ -56,7 +55,7 @@ public class CategoryLocalDataSource implements CategoryDataSource {
             while (c.moveToNext()) {
 
                 // TODO check if this has to be a string
-                int id = c.getInt(c.getColumnIndexOrThrow(CategoryEntry.COLUMN_NAME_ID));
+                int id = c.getInt(c.getColumnIndexOrThrow(CategoryEntry._ID));
                 String name = c.getString(c.getColumnIndexOrThrow(CategoryEntry.COLUMN_NAME_NAME));
 
                 Category category = new Category(id, name);
@@ -84,12 +83,11 @@ public class CategoryLocalDataSource implements CategoryDataSource {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] projection = {
-                CategoryEntry.COLUMN_NAME_ID,
                 CategoryEntry.COLUMN_NAME_NAME
         };
 
         // because ID is primary key, it's all we need to search
-        String selection = CategoryEntry.COLUMN_NAME_ID + " LIKE ?";
+        String selection = CategoryEntry._ID + " LIKE ?";
         String[] selectionArgs = { categoryId };
 
 
@@ -100,7 +98,7 @@ public class CategoryLocalDataSource implements CategoryDataSource {
         if (c != null && c.getCount() > 0) {
             c.moveToFirst();
             // TODO check if this has to be a string
-            int id = c.getInt(c.getColumnIndexOrThrow(CategoryEntry.COLUMN_NAME_ID));
+            int id = c.getInt(c.getColumnIndexOrThrow(CategoryEntry._ID));
             String name = c.getString(c.getColumnIndexOrThrow(CategoryEntry.COLUMN_NAME_NAME));
 
             category = new Category(id, name);
@@ -127,7 +125,7 @@ public class CategoryLocalDataSource implements CategoryDataSource {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(CategoryEntry.COLUMN_NAME_ID, category.getId());
+        values.put(CategoryEntry._ID, category.getId());
         values.put(CategoryEntry.COLUMN_NAME_NAME, category.getName());
 
         db.insert(CategoryEntry.TABLE_NAME, null, values);
@@ -148,7 +146,7 @@ public class CategoryLocalDataSource implements CategoryDataSource {
     public void deleteCategory(@NonNull String categoryId) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-        String selection = CategoryEntry.COLUMN_NAME_ID + " LIKE ?";
+        String selection = CategoryEntry._ID + " LIKE ?";
         String[] selectionArgs = { categoryId };
 
         db.delete(CategoryEntry.TABLE_NAME, selection, selectionArgs);
