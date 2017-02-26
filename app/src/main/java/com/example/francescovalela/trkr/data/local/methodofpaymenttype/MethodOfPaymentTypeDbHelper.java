@@ -23,7 +23,7 @@ public class MethodOfPaymentTypeDbHelper extends SQLiteOpenHelper {
                     ");";
 
     private static final String INSERT_DEFAULT_DATA =
-            "INSERT INTO" +  MethodOfPaymentTypeEntry.TABLE_NAME + "(" +
+            "INSERT INTO " +  MethodOfPaymentTypeEntry.TABLE_NAME + "(" +
                     MethodOfPaymentTypeEntry.COLUMN_NAME_NAME + ") VALUES " +
                     "('Cash'), ('Credit Card'), ('Interac')";
 
