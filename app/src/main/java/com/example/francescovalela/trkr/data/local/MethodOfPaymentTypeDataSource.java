@@ -15,12 +15,12 @@ public interface MethodOfPaymentTypeDataSource  {
 
     //load expense data into a list & checks if data is available
     interface LoadMethodOfPaymentTypesCallback {
-        void onMethodOfPaymentTypesLoaded(List<MethodOfPaymentType> expenses);
+        void onMethodOfPaymentTypesLoaded(List<MethodOfPaymentType> types);
         void onDataNotAvailable();
     }
 
     interface GetMethodOfPaymentTypeCallback {
-        void onMethodOfPaymentTypeLoaded(MethodOfPaymentType expense);
+        void onMethodOfPaymentTypeLoaded(MethodOfPaymentType type);
         void onDataNotAvailable();
     }
 

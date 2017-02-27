@@ -10,8 +10,8 @@ import java.util.UUID;
 
 public class Category {
 
-    private String name;
     private int id;
+    private String name;
 
     public Category(int id, String name) {
         this.id = id;

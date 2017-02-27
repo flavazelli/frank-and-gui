@@ -2,8 +2,6 @@ package com.example.francescovalela.trkr.data.local;
 
 import android.support.annotation.NonNull;
 
-import com.example.francescovalela.trkr.data.local.methodofpayment.MethodOfPaymentLocalDataSource;
-import com.example.francescovalela.trkr.data.local.methodofpaymenttype.MethodOfPaymentTypeLocalDataSource;
 import com.example.francescovalela.trkr.logExpense.models.MethodOfPaymentType;
 
 import java.util.ArrayList;
@@ -41,7 +39,7 @@ public class MethodOfPaymentTypeRepository implements MethodOfPaymentTypeDataSou
     public void getMethodOfPaymentTypes(@NonNull final LoadMethodOfPaymentTypesCallback callback) {
         mMethodOfPaymentTypeLocalDataSource.getMethodOfPaymentTypes(new LoadMethodOfPaymentTypesCallback() {
             @Override
-            public void onMethodOfPaymentTypesLoaded(List<MethodOfPaymentType> expenses) {
+            public void onMethodOfPaymentTypesLoaded(List<MethodOfPaymentType> methodOfPaymentTypes) {
                 callback.onMethodOfPaymentTypesLoaded(new ArrayList<>(typeMap.values()));
             }
 
@@ -60,9 +58,9 @@ public class MethodOfPaymentTypeRepository implements MethodOfPaymentTypeDataSou
         checkNotNull(callback);
         mMethodOfPaymentTypeLocalDataSource.getMethodOfPaymentType(typeId, new GetMethodOfPaymentTypeCallback() {
             @Override
-            public void onMethodOfPaymentTypeLoaded(MethodOfPaymentType expense) {
-                typeMap.put(String.valueOf(expense.getId()), expense);
-                callback.onMethodOfPaymentTypeLoaded(expense);
+            public void onMethodOfPaymentTypeLoaded(MethodOfPaymentType methodOfPaymentType) {
+                typeMap.put(String.valueOf(methodOfPaymentType.getId()), methodOfPaymentType);
+                callback.onMethodOfPaymentTypeLoaded(methodOfPaymentType);
             }
 
             @Override

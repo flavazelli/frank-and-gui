@@ -57,8 +57,8 @@ public class MethodOfPaymentLocalDataSource implements MethodOfPaymentDataSource
                 long date = c.getLong(c.getColumnIndexOrThrow(MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_DATE));
                 String nickname = c.getString(c.getColumnIndexOrThrow(MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_NICKNAME));
                 int typeId = c.getInt(c.getColumnIndexOrThrow(MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_TYPEID));
-                MethodOfPayment type = new MethodOfPayment(nickname,typeId,date);
-                methodOfPayments.add(type);
+                MethodOfPayment methodOfPayment = new MethodOfPayment(id, nickname,typeId,date);
+                methodOfPayments.add(methodOfPayment);
             }
         }
 
@@ -93,7 +93,7 @@ public class MethodOfPaymentLocalDataSource implements MethodOfPaymentDataSource
 
 
         Cursor c = db.query(MethodOfPaymentContract.MethodOfPaymentEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
-        MethodOfPayment type = null;
+        MethodOfPayment methodOfPayment = null;
 
         if (c != null && c.getCount() > 0) {
             c.moveToFirst();
@@ -102,7 +102,7 @@ public class MethodOfPaymentLocalDataSource implements MethodOfPaymentDataSource
             String nickname = c.getString(c.getColumnIndexOrThrow(MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_NICKNAME));
             long date = c.getLong(c.getColumnIndexOrThrow(MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_DATE));
             int typeId = c.getInt(c.getColumnIndexOrThrow(MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_TYPEID));
-            type = new MethodOfPayment(nickname,typeId,date);
+            methodOfPayment = new MethodOfPayment(id, nickname,typeId,date);
         }
 
         if (c != null) {
@@ -112,8 +112,8 @@ public class MethodOfPaymentLocalDataSource implements MethodOfPaymentDataSource
         db.close();
 
         // will go in if expense is populated
-        if (type != null) {
-            callback.onMethodOfPaymentLoaded(type);
+        if (methodOfPayment != null) {
+            callback.onMethodOfPaymentLoaded(methodOfPayment);
         } else {
             callback.onDataNotAvailable();
         }

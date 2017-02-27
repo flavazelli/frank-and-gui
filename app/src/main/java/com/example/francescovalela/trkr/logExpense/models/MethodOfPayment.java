@@ -8,11 +8,13 @@ import java.util.Date;
 
 public class MethodOfPayment {
 
+    private int id;
     private String nickname;
     private int methodOfPaymentTypeId;
     private long date;
 
-    public MethodOfPayment(String nickname, int methodOfPaymentTypeId, long date) {
+    public MethodOfPayment(int id, String nickname, int methodOfPaymentTypeId, long date) {
+        this.id = id;
         this.nickname = nickname;
         this.methodOfPaymentTypeId = methodOfPaymentTypeId;
         this.date = date;
@@ -22,6 +24,16 @@ public class MethodOfPayment {
         this.nickname = nickname;
         this.methodOfPaymentTypeId = methodOfPaymentTypeId;
         this.date = new Date().getTime(); //defaults to current time in milliseconds
+    }
+
+    public int getId()
+    {
+        return this.id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
     }
 
     public String getNickname() {
