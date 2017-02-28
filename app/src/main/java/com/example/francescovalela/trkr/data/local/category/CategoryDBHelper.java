@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.francescovalela.trkr.data.local.expense.ExpenseContract;
+import com.example.francescovalela.trkr.data.local.category.CategoryContract.*;
 
 /**
  * Created by francescovalela on 2017-02-14.
@@ -12,13 +12,14 @@ import com.example.francescovalela.trkr.data.local.expense.ExpenseContract;
 
 public class CategoryDBHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     public static final String DATABASE_NAME = "Category.db";
 
     private static final String SQL_CREATE_ENTRIES_CATEGORY =
             "CREATE TABLE " + CategoryContract.CategoryEntry.TABLE_NAME + " (" +
-                    CategoryContract.CategoryEntry.COLUMN_NAME_NAME + " TEXT NOT NULL" +
+                    CategoryEntry.COLUMN_NAME_CATEGORYID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    CategoryEntry.COLUMN_NAME_NAME + " TEXT NOT NULL" +
                     ");";
 
     private static final String INSERT_DEFAULT_DATA = "INSERT INTO " + CategoryContract.CategoryEntry.TABLE_NAME +

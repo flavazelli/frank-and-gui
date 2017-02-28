@@ -16,12 +16,13 @@ import static com.example.francescovalela.trkr.data.local.methodofpayment.Method
 
 public class MethodOfPaymentDbHelper extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     public static final String DATABASE_NAME = "MethodOfPayment.db";
 
     private static final String SQL_CREATE_METHODOFPAYMENT =
             "CREATE TABLE " + MethodOfPaymentEntry.TABLE_NAME + " (" +
+                    MethodOfPaymentEntry.COLUMN_NAME_METHODOFPAYMENTID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     MethodOfPaymentEntry.COLUMN_NAME_NICKNAME + " TEXT NOT NULL," +
                     MethodOfPaymentEntry.COLUMN_NAME_TYPEID + " INTEGER NOT NULL," +
                     MethodOfPaymentEntry.COLUMN_NAME_DATE + " INTEGER NOT NULL" +
@@ -32,6 +33,8 @@ public class MethodOfPaymentDbHelper extends SQLiteOpenHelper{
     public MethodOfPaymentDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
+
 
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_METHODOFPAYMENT);

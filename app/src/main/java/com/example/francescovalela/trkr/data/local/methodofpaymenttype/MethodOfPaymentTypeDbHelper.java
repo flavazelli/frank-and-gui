@@ -4,6 +4,10 @@ import android.content.Context;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.francescovalela.trkr.data.local.methodofpayment.MethodOfPaymentContract;
+import com.example.francescovalela.trkr.logExpense.models.MethodOfPaymentType;
+
 import static com.example.francescovalela.trkr.data.local.methodofpaymenttype.MethodOfPaymentTypeContract.*;
 
 /**
@@ -13,12 +17,13 @@ import static com.example.francescovalela.trkr.data.local.methodofpaymenttype.Me
 
 public class MethodOfPaymentTypeDbHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     public static final String DATABASE_NAME = "MethodOfPaymentType.db";
 
     private static final String SQL_CREATE_METHODOFPAYMENTTYPE =
             "CREATE TABLE " + MethodOfPaymentTypeEntry.TABLE_NAME + " (" +
+                    MethodOfPaymentTypeEntry.COLUMN_NAME_METHODOFPAYMENTTYPEID + " INTEGER PRIMARY KEY AUTOINCREMENT" +
                     MethodOfPaymentTypeEntry.COLUMN_NAME_NAME + " TEXT NOT NULL" +
                     ");";
 
