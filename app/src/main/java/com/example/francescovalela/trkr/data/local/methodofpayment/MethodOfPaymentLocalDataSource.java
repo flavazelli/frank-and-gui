@@ -148,7 +148,7 @@ public class MethodOfPaymentLocalDataSource implements MethodOfPaymentDataSource
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         String selection = MethodOfPaymentContract.MethodOfPaymentEntry._ID + " LIKE ?";
-        String[] arguments = {typeId};
+        String[] arguments = { typeId };
 
         db.delete(MethodOfPaymentContract.MethodOfPaymentEntry.TABLE_NAME, selection, arguments);
 

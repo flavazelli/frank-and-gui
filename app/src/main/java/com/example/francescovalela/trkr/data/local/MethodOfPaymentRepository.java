@@ -46,7 +46,6 @@ public class MethodOfPaymentRepository implements MethodOfPaymentDataSource {
             @Override
             public void onDataNotAvailable() {
                 System.out.println("Data source not available");
-
             }
         });
 

@@ -105,11 +105,4 @@ public class ExpenseRepository implements ExpenseDataSource {
     public void deleteExpense(@NonNull String expenseId) {
         mExpenseLocalDataSource.deleteExpense(checkNotNull(expenseId));
     }
-
-    private void refreshLocalDataSource(List<Expense> expenses) {
-        mExpenseLocalDataSource.deleteAllExpenses();
-        for (Expense expense : expenses) {
-            mExpenseLocalDataSource.saveExpense(expense);
-        }
-    }
 }

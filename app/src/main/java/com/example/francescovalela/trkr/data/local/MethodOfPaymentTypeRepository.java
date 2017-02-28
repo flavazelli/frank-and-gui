@@ -86,11 +86,4 @@ public class MethodOfPaymentTypeRepository implements MethodOfPaymentTypeDataSou
     public void deleteMethodOfPaymentType(@NonNull String typeId) {
         mMethodOfPaymentTypeLocalDataSource.deleteMethodOfPaymentType(typeId);
     }
-
-    private void refreshLocalDataSource(List<MethodOfPaymentType> types) {
-        mMethodOfPaymentTypeLocalDataSource.deleteAllMethodOfPaymentTypes();
-        for (MethodOfPaymentType type : types) {
-            mMethodOfPaymentTypeLocalDataSource.saveMethodOfPaymentType(type);
-        }
-    }
 }

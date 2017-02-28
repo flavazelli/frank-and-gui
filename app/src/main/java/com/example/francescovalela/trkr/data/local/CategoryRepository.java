@@ -104,10 +104,4 @@ public class CategoryRepository implements CategoryDataSource {
         mCategoryLocalDataSource.deleteCategory(checkNotNull(categoryId));
     }
 
-    private void refreshLocalDataSource(List<Category> categories) {
-        mCategoryLocalDataSource.deleteAllCategories();
-        for (Category category : categories) {
-            mCategoryLocalDataSource.saveCategory(category);
-        }
-    }
 }
