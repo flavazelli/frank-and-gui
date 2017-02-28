@@ -13,6 +13,7 @@ import com.example.francescovalela.trkr.logExpense.models.Category;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.id;
 import static android.support.test.espresso.core.deps.guava.base.Preconditions.checkNotNull;
 
 /**
@@ -46,6 +47,7 @@ public class CategoryLocalDataSource implements CategoryDataSource {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] projection = {
+                CategoryEntry.COLUMN_NAME_CATEGORYID,
                 CategoryEntry.COLUMN_NAME_NAME
         };
 
@@ -54,8 +56,7 @@ public class CategoryLocalDataSource implements CategoryDataSource {
         if (c != null && c.getCount() > 0) {
             while (c.moveToNext()) {
 
-                // TODO check if this has to be a string
-                int id = c.getInt(c.getColumnIndexOrThrow(CategoryEntry._ID));
+                int id = c.getInt(c.getColumnIndexOrThrow(CategoryEntry.COLUMN_NAME_CATEGORYID));
                 String name = c.getString(c.getColumnIndexOrThrow(CategoryEntry.COLUMN_NAME_NAME));
 
                 Category category = new Category(id, name);
@@ -87,7 +88,7 @@ public class CategoryLocalDataSource implements CategoryDataSource {
         };
 
         // because ID is primary key, it's all we need to search
-        String selection = CategoryEntry._ID + " LIKE ?";
+        String selection = CategoryEntry.COLUMN_NAME_CATEGORYID + " LIKE ?";
         String[] selectionArgs = { categoryId };
 
 
@@ -98,7 +99,7 @@ public class CategoryLocalDataSource implements CategoryDataSource {
         if (c != null && c.getCount() > 0) {
             c.moveToFirst();
             // TODO check if this has to be a string
-            int id = c.getInt(c.getColumnIndexOrThrow(CategoryEntry._ID));
+            int id = c.getInt(c.getColumnIndexOrThrow(CategoryEntry.COLUMN_NAME_CATEGORYID));
             String name = c.getString(c.getColumnIndexOrThrow(CategoryEntry.COLUMN_NAME_NAME));
 
             category = new Category(id, name);
@@ -125,7 +126,7 @@ public class CategoryLocalDataSource implements CategoryDataSource {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(CategoryEntry._ID, category.getId());
+        values.put(CategoryEntry.COLUMN_NAME_CATEGORYID, category.getId());
         values.put(CategoryEntry.COLUMN_NAME_NAME, category.getName());
 
         db.insert(CategoryEntry.TABLE_NAME, null, values);
@@ -146,7 +147,7 @@ public class CategoryLocalDataSource implements CategoryDataSource {
     public void deleteCategory(@NonNull String categoryId) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-        String selection = CategoryEntry._ID + " LIKE ?";
+        String selection = CategoryEntry.COLUMN_NAME_CATEGORYID + " LIKE ?";
         String[] selectionArgs = { categoryId };
 
         db.delete(CategoryEntry.TABLE_NAME, selection, selectionArgs);

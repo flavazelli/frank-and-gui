@@ -57,6 +57,7 @@ public class ExpenseLocalDataSource implements ExpenseDataSource {
         if (c != null && c.getCount() > 0) {
             while (c.moveToNext()) {
 
+                int id = c.getInt(c.getColumnIndexOrThrow(ExpenseEntry.COLUMN_NAME_EXPENSEID));
                 long date = c.getLong(c.getColumnIndexOrThrow(ExpenseEntry.COLUMN_NAME_DATE));
                 String name = c.getString(c.getColumnIndexOrThrow(ExpenseEntry.COLUMN_NAME_NAME));
                 double cost = c.getDouble(c.getColumnIndexOrThrow(ExpenseEntry.COLUMN_NAME_COST));
@@ -65,7 +66,7 @@ public class ExpenseLocalDataSource implements ExpenseDataSource {
                 int methodOfPaymentTypeId = c.getInt(c.getColumnIndexOrThrow(ExpenseEntry.COLUMN_NAME_METHODOFPAYMENTID));
                 int categoryId = c.getInt(c.getColumnIndexOrThrow(ExpenseEntry.COLUMN_NAME_CATEGORYID));
 
-                Expense expense = new Expense(date, name, cost, locationLat, locationLong, methodOfPaymentTypeId, categoryId);
+                Expense expense = new Expense(id, date, name, cost, locationLat, locationLong, methodOfPaymentTypeId, categoryId);
                 expenses.add(expense);
             }
         }
@@ -90,6 +91,7 @@ public class ExpenseLocalDataSource implements ExpenseDataSource {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] projection = {
+                ExpenseEntry.COLUMN_NAME_EXPENSEID,
                 ExpenseEntry.COLUMN_NAME_DATE,
                 ExpenseEntry.COLUMN_NAME_NAME,
                 ExpenseEntry.COLUMN_NAME_COST,
@@ -99,9 +101,8 @@ public class ExpenseLocalDataSource implements ExpenseDataSource {
                 ExpenseEntry.COLUMN_NAME_CATEGORYID
         };
 
-        // TODO check if _ID works or we need to create ID attribute in expense class
         // because ID is primary key, it's all we need to search
-        String selection = ExpenseEntry._ID + " LIKE ?";
+        String selection = ExpenseEntry.COLUMN_NAME_EXPENSEID + " LIKE ?";
         String[] selectionArgs = { expenseId };
 
 
@@ -112,6 +113,7 @@ public class ExpenseLocalDataSource implements ExpenseDataSource {
         if (c != null && c.getCount() > 0) {
             c.moveToFirst();
 
+            int id = c.getInt(c.getColumnIndexOrThrow(ExpenseEntry.COLUMN_NAME_EXPENSEID));
             long date = c.getLong(c.getColumnIndexOrThrow(ExpenseEntry.COLUMN_NAME_DATE));
             String name = c.getString(c.getColumnIndexOrThrow(ExpenseEntry.COLUMN_NAME_NAME));
             double cost = c.getDouble(c.getColumnIndexOrThrow(ExpenseEntry.COLUMN_NAME_COST));
@@ -121,7 +123,7 @@ public class ExpenseLocalDataSource implements ExpenseDataSource {
             int categoryId = c.getInt(c.getColumnIndexOrThrow(ExpenseEntry.COLUMN_NAME_CATEGORYID));
 
 
-            expense = new Expense(date, name, cost, locationLat, locationLong, methodOfPaymentTypeId, categoryId);
+            expense = new Expense(id, date, name, cost, locationLat, locationLong, methodOfPaymentTypeId, categoryId);
         }
 
         if (c != null) {
@@ -174,7 +176,7 @@ public class ExpenseLocalDataSource implements ExpenseDataSource {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         // TODO check if _ID will work
-        String selection = ExpenseEntry._ID + " LIKE ?";
+        String selection = ExpenseEntry.COLUMN_NAME_EXPENSEID + " LIKE ?";
         String[] selectionArgs = { expenseId };
 
         db.delete(ExpenseEntry.TABLE_NAME, selection, selectionArgs);

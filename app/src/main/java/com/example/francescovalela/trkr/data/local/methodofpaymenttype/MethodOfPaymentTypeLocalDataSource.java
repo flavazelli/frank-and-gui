@@ -52,7 +52,7 @@ public class MethodOfPaymentTypeLocalDataSource implements MethodOfPaymentTypeDa
 
         if (c != null && c.getCount() > 0) {
             while (c.moveToNext()) {
-                int id = c.getInt(c.getColumnIndex(MethodOfPaymentTypeEntry._ID));
+                int id = c.getInt(c.getColumnIndex(MethodOfPaymentTypeEntry.COLUMN_NAME_METHODOFPAYMENTTYPEID));
                 String name = c.getString(c.getColumnIndexOrThrow(MethodOfPaymentTypeEntry.COLUMN_NAME_NAME));
                 MethodOfPaymentType type = new MethodOfPaymentType(id, name);
                 types.add(type);
@@ -82,7 +82,7 @@ public class MethodOfPaymentTypeLocalDataSource implements MethodOfPaymentTypeDa
         };
 
         // because ID is primary key, it's all we need to search
-        String selection = MethodOfPaymentTypeEntry._ID + " LIKE ?";
+        String selection = MethodOfPaymentTypeEntry.COLUMN_NAME_METHODOFPAYMENTTYPEID + " LIKE ?";
         String[] selectionArgs = { typeId };
 
 
@@ -92,7 +92,7 @@ public class MethodOfPaymentTypeLocalDataSource implements MethodOfPaymentTypeDa
         if (c != null && c.getCount() > 0) {
             c.moveToFirst();
 
-            int id = c.getInt(c.getColumnIndex(MethodOfPaymentTypeEntry._ID));
+            int id = c.getInt(c.getColumnIndex(MethodOfPaymentTypeEntry.COLUMN_NAME_METHODOFPAYMENTTYPEID));
             String name = c.getString(c.getColumnIndexOrThrow(MethodOfPaymentTypeEntry.COLUMN_NAME_NAME));
             type = new MethodOfPaymentType(id, name);
         }
@@ -137,7 +137,7 @@ public class MethodOfPaymentTypeLocalDataSource implements MethodOfPaymentTypeDa
     public void deleteMethodOfPaymentType(@NonNull String typeId) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-        String selection = MethodOfPaymentTypeEntry._ID + " LIKE ?";
+        String selection = MethodOfPaymentTypeEntry.COLUMN_NAME_METHODOFPAYMENTTYPEID + " LIKE ?";
         String[] arguments = {typeId};
 
         db.delete(MethodOfPaymentTypeEntry.TABLE_NAME, selection, arguments);

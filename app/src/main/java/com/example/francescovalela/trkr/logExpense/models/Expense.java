@@ -14,10 +14,12 @@ public class Expense {
     private String name;
     private double cost, locationLong, locationLat;
     private long date;
-    private int methodOfPaymentId, categoryId;
+
+    private int expenseId, methodOfPaymentId, categoryId;
 
     //Constructor for inputting all attributes except date which defaults to the current time
-    public Expense(String name, double cost, double locationLat, double locationLong, int methodOfPaymentId, int categoryId) {
+    public Expense(int expenseId, String name, double cost, double locationLat, double locationLong, int methodOfPaymentId, int categoryId) {
+        this.expenseId = expenseId;
         this.name = name;
         this.cost = cost;
         this.locationLat = locationLat;
@@ -29,7 +31,8 @@ public class Expense {
     }
 
     //Constructor for inputting all attributes including date
-    public Expense(long date, String name, double cost, double locationLat, double locationLong, int methodOfPaymentId, int categoryId) {
+    public Expense(int expenseId, long date, String name, double cost, double locationLat, double locationLong, int methodOfPaymentId, int categoryId) {
+        this.expenseId = expenseId;
         this.date = date;
         this.name = name;
         this.cost = cost;
@@ -44,6 +47,15 @@ public class Expense {
         Date currentDate = new Date(date);
 
         return currentDate;
+    }
+
+
+    public int getExpenseId() {
+        return expenseId;
+    }
+
+    public void setExpenseId(int expenseId) {
+        this.expenseId = expenseId;
     }
 
     public void setDate(long date) {

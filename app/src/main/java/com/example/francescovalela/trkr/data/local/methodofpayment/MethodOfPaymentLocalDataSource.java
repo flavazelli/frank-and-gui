@@ -43,7 +43,7 @@ public class MethodOfPaymentLocalDataSource implements MethodOfPaymentDataSource
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] projection = {
-                MethodOfPaymentContract.MethodOfPaymentEntry._ID,
+                MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_METHODOFPAYMENTID,
                 MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_DATE,
                 MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_NICKNAME,
                 MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_TYPEID
@@ -53,7 +53,7 @@ public class MethodOfPaymentLocalDataSource implements MethodOfPaymentDataSource
 
         if (c != null && c.getCount() > 0) {
             while (c.moveToNext()) {
-                int id = c.getInt(c.getColumnIndex(MethodOfPaymentContract.MethodOfPaymentEntry._ID));
+                int id = c.getInt(c.getColumnIndex(MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_METHODOFPAYMENTID));
                 long date = c.getLong(c.getColumnIndexOrThrow(MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_DATE));
                 String nickname = c.getString(c.getColumnIndexOrThrow(MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_NICKNAME));
                 int typeId = c.getInt(c.getColumnIndexOrThrow(MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_TYPEID));
@@ -81,14 +81,14 @@ public class MethodOfPaymentLocalDataSource implements MethodOfPaymentDataSource
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] projection = {
-                MethodOfPaymentContract.MethodOfPaymentEntry._ID,
+                MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_METHODOFPAYMENTID,
                 MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_DATE,
                 MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_NICKNAME,
                 MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_TYPEID
         };
 
         // because ID is primary key, it's all we need to search
-        String selection = MethodOfPaymentContract.MethodOfPaymentEntry._ID + " LIKE ?";
+        String selection = MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_METHODOFPAYMENTID + " LIKE ?";
         String[] selectionArgs = { methodOdfPaymentId };
 
 
@@ -98,7 +98,7 @@ public class MethodOfPaymentLocalDataSource implements MethodOfPaymentDataSource
         if (c != null && c.getCount() > 0) {
             c.moveToFirst();
 
-            int id = c.getInt(c.getColumnIndex(MethodOfPaymentContract.MethodOfPaymentEntry._ID));
+            int id = c.getInt(c.getColumnIndex(MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_METHODOFPAYMENTID));
             String nickname = c.getString(c.getColumnIndexOrThrow(MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_NICKNAME));
             long date = c.getLong(c.getColumnIndexOrThrow(MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_DATE));
             int typeId = c.getInt(c.getColumnIndexOrThrow(MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_TYPEID));
@@ -147,7 +147,7 @@ public class MethodOfPaymentLocalDataSource implements MethodOfPaymentDataSource
     public void deleteMethodOfPayment(@NonNull String typeId) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-        String selection = MethodOfPaymentContract.MethodOfPaymentEntry._ID + " LIKE ?";
+        String selection = MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_METHODOFPAYMENTID + " LIKE ?";
         String[] arguments = { typeId };
 
         db.delete(MethodOfPaymentContract.MethodOfPaymentEntry.TABLE_NAME, selection, arguments);
