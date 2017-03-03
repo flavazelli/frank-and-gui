@@ -4,6 +4,7 @@ import com.example.francescovalela.trkr.data.local.ExpenseRepository;
 import com.example.francescovalela.trkr.data.local.expense.ExpenseContract;
 import com.example.francescovalela.trkr.logExpense.models.Expense;
 
+import static android.R.attr.name;
 import static android.support.test.espresso.core.deps.guava.base.Preconditions.checkNotNull;
 
 /**
@@ -24,45 +25,14 @@ public class AddExpensePresenter implements AddExpenseContract.Presenter {
         mExpenseView.setPresenter(this);
     }
 
-    // TODO stopped here
-
-    @Override
-    public void addExpense() {
-
-    }
-
-    @Override
-    public void validateExpenseFields() {
-
-    }
-
-    @Override
-    public void resetExpenseFields() {
-
-    }
-
-    @Override
-    public void getLocation() {
-
-    }
-
-    @Override
-    public void setLocation(double locationLat, double locationLong) {
-
-    }
-
-    @Override
-    public void getDate() {
-
-    }
-
-    @Override
-    public void setDate(long date) {
-
-    }
-
     @Override
     public void start() {
 
+    }
+
+    public void addExpense(int expenseId, long date, String name, double cost, double locationLat, double locationLong, int methodOfPaymentId, int categoryId) {
+        Expense expense = new Expense(expenseId, date, name, cost, locationLat, locationLong, methodOfPaymentId, categoryId);
+
+        mExpenseRepository.saveExpense(expense);
     }
 }
