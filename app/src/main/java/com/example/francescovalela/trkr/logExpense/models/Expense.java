@@ -14,7 +14,6 @@ public class Expense {
     private String name;
     private double cost, locationLong, locationLat;
     private long date;
-
     private int expenseId, methodOfPaymentId, categoryId;
 
     //Constructor for inputting all attributes except date which defaults to the current time

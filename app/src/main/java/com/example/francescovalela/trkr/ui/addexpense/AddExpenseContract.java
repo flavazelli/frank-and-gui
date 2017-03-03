@@ -15,12 +15,6 @@ public interface AddExpenseContract {
 
     interface View extends BaseView<Presenter> {
 
-        //for initial load
-        void showExpenseFields();
-
-        //for submit button result
-        void showExpenseSuccess();
-
         //for submit button result
         void showMissingFields();
 
@@ -31,7 +25,7 @@ public interface AddExpenseContract {
         void showDateCalender();
 
         // checks if all fields match
-        void validateExpenseFields();
+        boolean validateExpenseFields();
 
         // resets all fields
         void resetExpenseFields();
