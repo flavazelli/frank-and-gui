@@ -1,7 +1,13 @@
 package com.example.francescovalela.trkr.ui.addExpense;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.EditText;
 
 import com.example.francescovalela.trkr.R;
@@ -10,7 +16,7 @@ import com.example.francescovalela.trkr.R;
  * Created by flavazelli on 2017-02-28.
  */
 
-public class AddExpenseActivity extends AppCompatActivity implements AddExpenseContract.View {
+public class AddExpenseActivity extends Activity implements AddExpenseContract.View {
 
     private String name;
     private double cost, locationLong, locationLat;
@@ -21,7 +27,10 @@ public class AddExpenseActivity extends AppCompatActivity implements AddExpenseC
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.);
+        setContentView(R.layout.activity_addexpense);
+
+        Intent activityThatCalled = getIntent();
+
     }
 
     @Override
@@ -63,7 +72,7 @@ public class AddExpenseActivity extends AppCompatActivity implements AddExpenseC
                     getCost(), getLocationLat(), getLocationLong(),
                     getMethodOfPaymentId(), getCategoryId());
 
-
+        EditText expenseNameET = (EditText) findViewById(R.id.expense_name_edit_text);
 
         //TODO check this out
         //  EditText usersNameET = (EditText) findViewById(R.id.user_name_edit_text);
