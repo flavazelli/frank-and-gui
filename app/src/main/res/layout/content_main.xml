@@ -9,8 +9,10 @@
     tools:context="com.example.francescovalela.trkr.HomeActivity"
     tools:showIn="@layout/activity_main">
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="@string/log_expense"
+        android:id="@+id/log_expense_button"
+        android:onClick="logExpense"/>
 </RelativeLayout>
