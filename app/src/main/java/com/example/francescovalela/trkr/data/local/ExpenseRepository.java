@@ -64,7 +64,6 @@ public class ExpenseRepository implements ExpenseDataSource {
         });
     }
 
-    // TODO do we change expenseId for the primary keys of expense?
     // Gets single expense from local data source (SQLite db) and puts it into the map.
     // onDataNotAvailable() is fired if all data sources (currently just SQLite) fail to get the data
     @Override
@@ -76,8 +75,6 @@ public class ExpenseRepository implements ExpenseDataSource {
         mExpenseLocalDataSource.getExpense(expenseId, new GetExpenseCallback() {
             @Override
             public void onExpenseLoaded(Expense expense) {
-                // TODO do we change getId() for the primary keys of expense?
-                //expenseMap.put(String.valueOf(expense.getId()), expense);
                 callback.onExpenseLoaded(expense);
             }
 

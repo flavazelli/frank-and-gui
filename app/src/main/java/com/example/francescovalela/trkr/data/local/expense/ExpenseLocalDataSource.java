@@ -174,8 +174,7 @@ public class ExpenseLocalDataSource implements ExpenseDataSource {
     @Override
     public void deleteExpense(@NonNull String expenseId) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-        // TODO check if _ID will work
+        
         String selection = ExpenseEntry.COLUMN_NAME_EXPENSEID + " LIKE ?";
         String[] selectionArgs = { expenseId };
 

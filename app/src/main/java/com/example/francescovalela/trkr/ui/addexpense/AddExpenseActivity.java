@@ -31,6 +31,13 @@ public class AddExpenseActivity extends Activity implements AddExpenseContract.V
 
         Intent activityThatCalled = getIntent();
 
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_submit_expense);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                submit();
+            }
+        });
     }
 
     @Override
@@ -72,16 +79,15 @@ public class AddExpenseActivity extends Activity implements AddExpenseContract.V
                     getCost(), getLocationLat(), getLocationLong(),
                     getMethodOfPaymentId(), getCategoryId());
 
-        EditText expenseNameET = (EditText) findViewById(R.id.expense_name_edit_text);
-
-        //TODO check this out
-        //  EditText usersNameET = (EditText) findViewById(R.id.user_name_edit_text);
-        //
-        //  String usersName = String.valueOf(usersNameET.getText());
     }
 
     public String getName() {
-        return name;
+
+        EditText expenseNameET = (EditText) findViewById(R.id.expense_name_edit_text);
+
+        String expenseName = String.valueOf(expenseNameET.getText());
+
+        return expenseName;
     }
 
     public void setName(String name) {
@@ -89,25 +95,32 @@ public class AddExpenseActivity extends Activity implements AddExpenseContract.V
     }
 
     public double getCost() {
-        return cost;
+
+        EditText expenseCostET = (EditText) findViewById(R.id.expense_cost_edit_text);
+
+        double expenseCost = Double.parseDouble(String.valueOf(expenseCostET.getText()));
+
+        return expenseCost;
     }
 
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
+    public void setCost(double cost) { this.cost = cost; }
 
+    // TODO change when location fragment is created
     public double getLocationLong() {
         return locationLong;
     }
 
+    // TODO change when location fragment is created
     public void setLocationLong(double locationLong) {
         this.locationLong = locationLong;
     }
 
+    // TODO change when location fragment is created
     public double getLocationLat() {
         return locationLat;
     }
 
+    // TODO change when location fragment is created
     public void setLocationLat(double locationLat) {
         this.locationLat = locationLat;
     }
@@ -121,6 +134,7 @@ public class AddExpenseActivity extends Activity implements AddExpenseContract.V
     }
 
     public int getExpenseId() {
+
         return expenseId;
     }
 

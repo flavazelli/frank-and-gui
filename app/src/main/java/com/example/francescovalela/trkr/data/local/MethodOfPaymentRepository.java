@@ -58,8 +58,6 @@ public class MethodOfPaymentRepository implements MethodOfPaymentDataSource {
         mMethodOfPaymentLocalDataSource.getMethodOfPayment(methodOfPaymentId, new GetMethodOfPaymentCallback() {
             @Override
             public void onMethodOfPaymentLoaded(MethodOfPayment methodOfPayment) {
-                //TODO: primary key or nah?
-                //methodOfPaymentMap.put(String.valueOf(methodOfPayment.getId(), methodOfPayment));
                 callback.onMethodOfPaymentLoaded(methodOfPayment);
             }
 

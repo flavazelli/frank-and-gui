@@ -18,7 +18,7 @@ public interface AddExpenseContract {
         //for submit button result
         void showMissingFields();
 
-        //popup location map
+        //popup location map //todo will open up fragment that will then send back location object/list
         void showLocationMap();
 
         //popup calendar //todo will open up fragment that will then send back date object

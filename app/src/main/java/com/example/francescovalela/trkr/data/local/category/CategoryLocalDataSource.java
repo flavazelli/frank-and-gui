@@ -98,7 +98,6 @@ public class CategoryLocalDataSource implements CategoryDataSource {
 
         if (c != null && c.getCount() > 0) {
             c.moveToFirst();
-            // TODO check if this has to be a string
             int id = c.getInt(c.getColumnIndexOrThrow(CategoryEntry.COLUMN_NAME_CATEGORYID));
             String name = c.getString(c.getColumnIndexOrThrow(CategoryEntry.COLUMN_NAME_NAME));
 
