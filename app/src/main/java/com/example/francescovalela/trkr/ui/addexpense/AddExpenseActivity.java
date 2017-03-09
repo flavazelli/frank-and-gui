@@ -1,5 +1,4 @@
 package com.example.francescovalela.trkr.ui.addExpense;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

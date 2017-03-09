@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.francescovalela.trkr.R;
@@ -54,7 +55,7 @@ public class ViewExpensesFragment extends ListFragment
 
     @Override
     public void onPause () {
-
+        super.onPause();
     };
 
     @Override
@@ -96,13 +97,12 @@ public class ViewExpensesFragment extends ListFragment
 
     }
 
-    private class ExpensesAdapter extends ArrayAdapter<Expense> {
+    private class ExpensesAdapter extends BaseAdapter {
 
         private List<Expense> mExpenses;
 
         public ExpensesAdapter(List<Expense> expenses)
         {
-            super(getActivity(),0, expenses);
             setList(expenses);
         }
 
@@ -132,7 +132,7 @@ public class ViewExpensesFragment extends ListFragment
 
         public void replaceData(List<Expense> expenses) {
             setList(expenses);
-            notifyDataSetChanged();
+            this.notifyDataSetChanged();
         }
 
         private void setList(List<Expense> expenses) {
@@ -142,6 +142,11 @@ public class ViewExpensesFragment extends ListFragment
         @Override
         public Expense getItem(int i) {
             return mExpenses.get(i);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
         }
 
         @Override
