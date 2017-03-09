@@ -53,7 +53,7 @@ public class ExpenseRepository implements ExpenseDataSource {
         mExpenseLocalDataSource.getExpenses(new LoadExpenseCallback() {
             @Override
             public void onExpensesLoaded(List<Expense> expenses) {
-                callback.onExpensesLoaded(new ArrayList<>(expenseMap.values()));
+                callback.onExpensesLoaded(expenses);
             }
 
             @Override

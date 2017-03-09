@@ -79,7 +79,13 @@ public class ExpenseLocalDataSource implements ExpenseDataSource {
 
         // will go in if table is empty/new
         if (expenses.isEmpty()) {
-            callback.onDataNotAvailable();
+            for (int i = 0; i < 20; i++)
+            {
+                Expense expense = new Expense(i, 1, "Expense" + i, 10.00, 1, 1, 1, 1);
+                expenses.add(expense);
+            }
+
+            callback.onExpensesLoaded(expenses);
         } else {
             callback.onExpensesLoaded(expenses);
         }

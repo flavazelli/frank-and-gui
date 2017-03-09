@@ -1,14 +1,18 @@
 package com.example.francescovalela.trkr.ui.viewexpenses;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.francescovalela.trkr.BasePresenter;
 import com.example.francescovalela.trkr.data.local.ExpenseDataSource;
 import com.example.francescovalela.trkr.data.local.ExpenseRepository;
+import com.example.francescovalela.trkr.data.local.expense.ExpenseLocalDataSource;
 import com.example.francescovalela.trkr.logExpense.models.Expense;
 
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
 import static android.support.test.espresso.core.deps.guava.base.Preconditions.checkNotNull;
 
 /**
@@ -17,23 +21,25 @@ import static android.support.test.espresso.core.deps.guava.base.Preconditions.c
 
 public class ViewExpensesPresenter implements ViewExpensesContract.Presenter {
 
-    ExpenseRepository mExpenseRepository;
+    private ExpenseRepository mExpenseRepository;
+    private ExpenseLocalDataSource mLocalDataSource;
 
-    ViewExpensesContract.View mExpensesView;
+    private ViewExpensesContract.View mExpensesView;
 
-    public ViewExpensesPresenter(@NonNull ExpenseRepository expensesRepository, @NonNull ViewExpensesContract.View expenseView) {
-        mExpenseRepository = checkNotNull(expensesRepository, "expense repository cannot be null");
+    public ViewExpensesPresenter(@NonNull ViewExpensesContract.View expenseView, Context context) {
+        mExpenseRepository = mExpenseRepository.getInstance(mLocalDataSource.getInstance(context));
+
         mExpensesView = checkNotNull(expenseView, "expense view cannot be null");
+        mExpensesView.setPresenter(this);
     }
 
     @Override
     public void start() {
-
+        loadExpenses();
     }
 
     @Override
     public void result(int requestCode, int resultCode) {
-
     }
 
     @Override
@@ -41,8 +47,6 @@ public class ViewExpensesPresenter implements ViewExpensesContract.Presenter {
         mExpenseRepository.getExpenses(new ExpenseDataSource.LoadExpenseCallback() {
             @Override
             public void onExpensesLoaded(List<Expense> expenses) {
-                mExpensesView.showExpenses(expenses);
-
                 processExpenses(expenses);
             }
 
@@ -60,7 +64,6 @@ public class ViewExpensesPresenter implements ViewExpensesContract.Presenter {
         } else {
             // Show the list of expenses
             mExpensesView.showExpenses(expenses);
-
         }
     }
 
