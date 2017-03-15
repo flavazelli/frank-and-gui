@@ -1,6 +1,7 @@
 package com.example.francescovalela.trkr.ui.addExpense;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,6 +11,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.francescovalela.trkr.R;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by flavazelli on 2017-02-28.
@@ -58,11 +62,12 @@ public class AddExpenseActivity extends Activity implements AddExpenseContract.V
     @Override
     public boolean validateExpenseFields() {
 
-
-        return true;
+        if (!isValidCost() || !isValidName()) return false;
+        else return true;
     }
 
     @Override
+    //todo start this
     public void resetExpenseFields() {
 
     }
@@ -73,11 +78,20 @@ public class AddExpenseActivity extends Activity implements AddExpenseContract.V
     }
 
     public void submit(){
-        if (validateExpenseFields())
+        if (!validateExpenseFields()) {
+            Snackbar errorMessage = Snackbar.make(findViewById(android.R.id.content), "Invalid fields", Snackbar.LENGTH_SHORT)
+                    .setActionTextColor(Color.RED);
+
+            errorMessage.show();
+
+            resetExpenseFields();
+        }
+        else {
+            //todo debug this
             mAddExpensePresenter.addExpense(getExpenseId(), getDate(), getName(),
                     getCost(), getLocationLat(), getLocationLong(),
                     getMethodOfPaymentId(), getCategoryId());
-
+        }
     }
 
     public String getName() {
@@ -155,5 +169,31 @@ public class AddExpenseActivity extends Activity implements AddExpenseContract.V
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
+    }
+
+    private boolean isValidName() {
+
+        String mName = this.getName();
+
+        String NAME_PATTERN = "^[a-zA-Z0-9_]+( [a-zA-Z0-9_]+)*$";
+
+        Pattern pattern = Pattern.compile(NAME_PATTERN);
+
+        Matcher matcher = pattern.matcher(mName);
+
+        return matcher.matches();
+    }
+
+    private boolean isValidCost() {
+
+        String mCost = String.valueOf(this.getCost());
+
+        String COST_PATTERN = "^\\d{1,7}\\.?\\d{1,4}$";
+
+        Pattern pattern = Pattern.compile(COST_PATTERN);
+
+        Matcher matcher = pattern.matcher(mCost);
+
+        return matcher.matches();
     }
 }
