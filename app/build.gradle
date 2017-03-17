@@ -36,7 +36,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.3.0'
 
     //Google Maps API - must install SDK first
-    compile 'com.google.android.gms:play-services-maps:10.2.0'
+    compile 'com.google.android.gms:play-services-places:10.2.0'
 
     testCompile 'junit:junit:4.12'
 }
