@@ -2,4 +2,8 @@
     <string name="app_name">Trkr</string>
     <string name="action_settings">Settings</string>
     <string name="log_expense">Log Expense</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="addExpense_pick_date_button">pick a date</string>
 </resources>
