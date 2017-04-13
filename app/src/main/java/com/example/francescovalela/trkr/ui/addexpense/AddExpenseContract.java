@@ -21,9 +21,6 @@ public interface AddExpenseContract {
         //popup location map //todo will open up fragment that will then send back location object/list
         void showLocationMap();
 
-        //popup calendar //todo will open up fragment that will then send back date object
-        void showDateCalender();
-
         // checks if all fields match
         boolean validateExpenseFields();
 

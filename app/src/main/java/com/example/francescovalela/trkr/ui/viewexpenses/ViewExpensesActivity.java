@@ -1,13 +1,12 @@
 package com.example.francescovalela.trkr.ui.viewexpenses;
 
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.os.Bundle;
-import android.util.Log;
-
 import com.example.francescovalela.trkr.R;
-
+import android.app.Activity;
+import android.os.Bundle;
+import android.app.FragmentManager;
+import android.util.Log;
 import static android.content.ContentValues.TAG;
+
 
 /**
  * Created by flavazelli on 2017-02-28.
@@ -16,22 +15,23 @@ import static android.content.ContentValues.TAG;
 public class ViewExpensesActivity extends Activity {
 
     private ViewExpensesPresenter mViewExpensesPresenter;
-    FragmentManager fragmentManager = getFragmentManager();
-    ViewExpensesFragment viewExpensesFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
 
-        ViewExpensesFragment viewExpensesFragment =  new ViewExpensesFragment();
+        FragmentManager fm = getFragmentManager();
+        ViewExpensesFragment fragment = (ViewExpensesFragment) fm.findFragmentById(R.id.fragment_container);
 
-        fragmentManager.beginTransaction()
-                .add(R.id.fragment_container, viewExpensesFragment)
-                .commit();
-
+        if (fragment == null) {
+            fragment = new ViewExpensesFragment();
+            fm.beginTransaction()
+                    .add(R.id.fragment_container, fragment)
+                    .commit();
+        }
         // Create the presenter
-        mViewExpensesPresenter = new ViewExpensesPresenter(viewExpensesFragment, getApplicationContext());
+        mViewExpensesPresenter = new ViewExpensesPresenter(fragment, getApplicationContext());
     }
 
     @Override

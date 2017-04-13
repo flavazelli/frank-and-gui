@@ -1,21 +1,19 @@
 package com.example.francescovalela.trkr.ui.viewexpenses;
 
-import android.app.ListFragment;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.francescovalela.trkr.R;
 import com.example.francescovalela.trkr.logExpense.models.Expense;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -25,17 +23,20 @@ import static android.support.test.espresso.core.deps.guava.base.Preconditions.c
  * Created by flavazelli on 2017-02-28.
  */
 
-public class ViewExpensesFragment extends ListFragment
+public class ViewExpensesFragment extends Fragment
     implements ViewExpensesContract.View {
 
+    private RecyclerView mExpenseRecyclerView;
+
     ViewExpensesContract.Presenter mPresenter;
-    ExpensesAdapter expenseAdapter;
+    private ExpensesAdapter mExpenseAdapter;
 
     public ViewExpensesFragment() {
         // Requires empty public constructor
     }
 
     public static ViewExpensesFragment newInstance() {
+
         return new ViewExpensesFragment();
     }
 
@@ -43,14 +44,18 @@ public class ViewExpensesFragment extends ListFragment
     @Override
     public void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        expenseAdapter = new ExpensesAdapter(new ArrayList<Expense>(0));
-        setListAdapter(expenseAdapter);
     };
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return null;
+
+        View view = inflater.inflate(R.layout.fragment_expense_list, container, false);
+
+        mExpenseRecyclerView = (RecyclerView) view
+                .findViewById(R.id.expense_recycler_view);
+        mExpenseRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        return view;
     };
 
     @Override
@@ -72,8 +77,8 @@ public class ViewExpensesFragment extends ListFragment
 
 
     @Override
-    public void showExpenses(List<Expense> expenses) {
-        expenseAdapter.replaceData(expenses);
+    public void showExpenses(List<Expense> expenses){
+        updateUI(expenses);
     }
 
     @Override
@@ -97,64 +102,68 @@ public class ViewExpensesFragment extends ListFragment
 
     }
 
-    private class ExpensesAdapter extends BaseAdapter {
+    private void updateUI(List<Expense> expenses) {
+        mExpenseAdapter = new ExpensesAdapter(expenses);
+        mExpenseRecyclerView.setAdapter(mExpenseAdapter);
+    }
+
+    private class ExpenseHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
+
+        private Expense mExpense;
+
+        private TextView mTitleTextView;
+        private TextView mCostTextView;
+
+        public ExpenseHolder(View itemView) {
+            super(itemView);
+
+            itemView.setOnClickListener(this);
+
+            mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_expense_title);
+            mCostTextView = (TextView) itemView.findViewById(R.id.list_item_expense_cost);
+        }
+
+        public void bindExpense(Expense expense) {
+            mExpense = expense;
+            mTitleTextView.setText(expense.getName());
+            mCostTextView.setText("$" + expense.getCost());
+        }
+
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(getActivity(),
+                    mExpense.getName() + " clicked!", Toast.LENGTH_SHORT)
+                    .show();
+        }
+    }
+
+    private class ExpensesAdapter extends RecyclerView.Adapter<ExpenseHolder> {
 
         private List<Expense> mExpenses;
 
-        public ExpensesAdapter(List<Expense> expenses)
-        {
-            setList(expenses);
+        private ExpensesAdapter(List<Expense> expenses) {
+            mExpenses = expenses;
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            Log.d(TAG, "GET VIEW:" + convertView.toString());
-
-            //if we weren't given a  view, inflate one
-            if (convertView == null) {
-                convertView = getActivity().getLayoutInflater()
-                        .inflate(R.layout.fragment_expense_list, null);
-            }
-
-            //Configure the view for this expense
-            Expense e = getItem(position);
-            TextView dateTextView = (TextView) convertView.findViewById(R.id.date);
-            TextView costTextView = (TextView) convertView.findViewById(R.id.cost);
-            TextView categoryTextView = (TextView) convertView.findViewById(R.id.category);
-
-            dateTextView.setText(e.getDate().toString());
-            costTextView.setText(String.valueOf(e.getCost()));
-            //TODO: create category methods in expense
-            categoryTextView.setText(e.getName());
-
-            return convertView;
-        }
-
-        public void replaceData(List<Expense> expenses) {
-            setList(expenses);
-            this.notifyDataSetChanged();
-        }
-
-        private void setList(List<Expense> expenses) {
-            mExpenses = checkNotNull(expenses);
+        public ExpenseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            View view = layoutInflater
+                    .inflate(R.layout.list_item_expense, parent, false);
+            return new ExpenseHolder(view);
         }
 
         @Override
-        public Expense getItem(int i) {
-            return mExpenses.get(i);
+        public void onBindViewHolder(ExpenseHolder holder, int position) {
+            Expense expense = mExpenses.get(position);
+
+            holder.bindExpense(expense);
         }
 
         @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public int getCount() {
+        public int getItemCount() {
             return mExpenses.size();
         }
-
-
-
     }
 }

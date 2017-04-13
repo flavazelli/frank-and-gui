@@ -81,7 +81,7 @@ public class ExpenseLocalDataSource implements ExpenseDataSource {
         if (expenses.isEmpty()) {
             for (int i = 0; i < 20; i++)
             {
-                Expense expense = new Expense(i, 1, "Expense" + i, 10.00, 1, 1, 1, 1);
+                Expense expense = new Expense(i, 1, "Expense " + i, 10.00, 1, 1, 1, 1);
                 expenses.add(expense);
             }
 
