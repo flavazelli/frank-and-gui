@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.francescovalela.trkr.data.local.ExpenseDataSource;
 import com.example.francescovalela.trkr.data.local.expense.ExpenseContract.ExpenseEntry;
@@ -164,6 +165,8 @@ public class ExpenseLocalDataSource implements ExpenseDataSource {
         //values.put(ExpenseEntry.COLUMN_NAME_CATEGORYID, expense.getCategory());
 
         db.insert(ExpenseEntry.TABLE_NAME, null, values);
+
+        Log.d("inserted into db", "inserted into db");
 
         db.close();
     }

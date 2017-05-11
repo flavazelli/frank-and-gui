@@ -71,10 +71,10 @@ public class AddExpenseLocationFragment extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
-                Place selectedPlace = PlacePicker.getPlace(data, this);
+                Place selectedPlace = PlacePicker.getPlace(this, data);
                 final String name = selectedPlace.getName().toString();
                 final String address = selectedPlace.getAddress().toString();
-                final String placeId = selectedPlace.getId().toString();
+                final String placeId = selectedPlace.getId();
                 final double latitude = selectedPlace.getLatLng().latitude;
                 final double longitude = selectedPlace.getLatLng().longitude;
 

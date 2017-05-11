@@ -1,10 +1,6 @@
 package com.example.francescovalela.trkr.ui.addExpense;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.*;
 import android.content.Intent;
 import android.graphics.Color;
 import android.icu.text.SimpleDateFormat;
@@ -14,18 +10,25 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.example.francescovalela.trkr.R;
-
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+
+
+import static android.app.Activity.RESULT_OK;
+import static android.support.test.espresso.core.deps.guava.base.Preconditions.checkNotNull;
 
 /**
  * Created by francescovalela on 2017-04-04.
@@ -39,10 +42,34 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
     private int expenseId, methodOfPaymentId, categoryId;
     private AddExpenseActivity mAddExpenseActivity;
     private AddExpenseContract.Presenter mAddExpensePresenter;
+    private Button showDate;
+    private Button get_place;
+    private TextView locationTV;
+    int PLACE_PICKER_REQUEST = 1;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        //Fragment Manager
+        fragmentManager = getChildFragmentManager();
+
+        fragmentTransaction = getChildFragmentManager().beginTransaction();
+
+        mAddExpenseActivity = (AddExpenseActivity) getActivity();
+
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+
+        final View RootView = inflater.inflate(R.layout.fragment_addexpense, container, false);
 
         //sets date to current date
         final Calendar c = Calendar.getInstance();
@@ -52,28 +79,39 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
 
         long currentDate = c.getTimeInMillis();
 
-        returnDate(currentDate);
-
-        //Fragment Manager
-        FragmentManager fragmentManager = getChildFragmentManager();
-
-        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+        returnDate(currentDate, RootView);
 
 
+
+        //sets location objects
+        locationTV = (TextView) RootView.findViewById(R.id.expense_location_text_view);
+        get_place = (Button) RootView.findViewById(R.id.expense_location_button);
+        get_place.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+                Intent intent;
+                try {
+                    intent = builder.build(getActivity());
+                    startActivityForResult(intent, PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         //FAB
-        FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.fab_submit_expense);
+        FloatingActionButton fab = (FloatingActionButton) RootView.findViewById(R.id.fab_submit_expense);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                submit();
+                submit(RootView);
             }
         });
-    }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.activity_addexpense, container, false);
+        return RootView;
     }
 
     @Override
@@ -110,70 +148,59 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
 
     public void setCost(double cost) { this.cost = cost; }
 
-    // TODO change when location fragment is created
     public double getLocationLong() {
         return locationLong;
     }
 
-    // TODO change when location fragment is created
     public void setLocationLong(double locationLong) {
         this.locationLong = locationLong;
     }
 
-    // TODO change when location fragment is created
     public double getLocationLat() {
         return locationLat;
     }
 
-    // TODO change when location fragment is created
     public void setLocationLat(double locationLat) {
         this.locationLat = locationLat;
     }
 
-    public void showPlacePicker(View v) {
-        final String FRAGTAG = "PlacePickerSample";
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Place selectedPlace = PlacePicker.getPlace(getActivity(), data);
+                final String name = selectedPlace.getName().toString();
+                final String address = selectedPlace.getAddress().toString();
+                final String placeId = selectedPlace.getId();
+                final double latitude = selectedPlace.getLatLng().latitude;
+                final double longitude = selectedPlace.getLatLng().longitude;
+
+                returnLocation(name, address, latitude, longitude, placeId);
+            }
+        }
     }
 
-        //Used by AddExpenseLocationFragment
+    //Used by AddExpenseLocationFragment
     public void returnLocation(String name, String address, double latitude, double longitude, String placeId) {
 
         setLocationLat(latitude);
         setLocationLong(longitude);
 
-        TextView locationTV = (TextView) getView().findViewById(R.id.expense_location_text_view);
         locationTV.setText(name + " at " + address);
     }
 
-    public long getDate() {
-        return date;
-    }
-
-    public void setDate(long date) {
-        this.date = date;
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public void showDatePickerDialog(View v) {
-        mAddExpenseActivity = new AddExpenseActivity();
-
-        DialogFragment newFragment = new AddExpenseDateFragment();
-        newFragment.show(mAddExpenseActivity.getSupportFragmentManager(), "datePicker");
-    }
-
     //Takes passed value, sets the value to date and then displays it in textView
-    //Used by AddExpenseDateFragment
+    //Also in calling activity for when using the AddExpenseDateFragment
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void returnDate(long date) {
+    public void returnDate(long date, View RootView) {
 
-        setDate(date);
+        mAddExpenseActivity.setDate(date);
 
         Date formattedDate = new Date(date);
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         String selectedDate = sdf.format(formattedDate.getTime());
 
-        TextView dateTV = (TextView) getView().findViewById(R.id.expense_date_text_view);
+        @SuppressWarnings("ConstantConditions") TextView dateTV = (TextView) RootView.findViewById(R.id.expense_date_text_view);
         dateTV.setText(selectedDate);
     }
 
@@ -223,7 +250,9 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
     //Checks if cost is of valid format
     private boolean isValidCost() {
 
-        String mCost = String.valueOf(this.getCost());
+        EditText expenseCostET = (EditText) getView().findViewById(R.id.expense_cost_edit_text);
+
+        String mCost = String.valueOf(expenseCostET.getText());
 
         //return false if field is empty
         if (mCost.equals("") || mCost.equals(null)) return false;
@@ -238,12 +267,9 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
         return matcher.matches();
     }
 
-    public void showLocationPickerFragment(View view) {
-
-    }
-
     @Override
     public void setPresenter(AddExpenseContract.Presenter presenter) {
+        mAddExpensePresenter = checkNotNull(presenter);
 
     }
 
@@ -260,23 +286,24 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
     public void resetExpenseFields() {
     }
 
-
-    public void submit() {
-        //todo add in if missing fields...
+    public void submit(View rootView) {
 
         if (!validateExpenseFields()) {
-            Snackbar errorMessage = Snackbar.make(getView().findViewById(android.R.id.content), "Invalid fields", Snackbar.LENGTH_SHORT)
+            Snackbar errorMessage = Snackbar.make(rootView, "Invalid fields: Please correct red underlined fields", Snackbar.LENGTH_LONG)
                     .setActionTextColor(Color.RED);
 
             errorMessage.show();
 
             resetExpenseFields();
         } else {
-            //todo debug this
-            mAddExpensePresenter.addExpense(getExpenseId(), getDate(), getName(),
+            mAddExpensePresenter.addExpense(getExpenseId(), mAddExpenseActivity.getDate(), getName(),
                     getCost(), getLocationLat(), getLocationLong(),
                     getMethodOfPaymentId(), getCategoryId());
+
+            Snackbar successMessage = Snackbar.make(rootView, "expense has been saved", Snackbar.LENGTH_LONG)
+                    .setActionTextColor(Color.GREEN);
+
+            successMessage.show();
         }
     }
-
 }

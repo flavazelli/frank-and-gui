@@ -23,6 +23,7 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+
         <!-- Google API key & user permissions -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
