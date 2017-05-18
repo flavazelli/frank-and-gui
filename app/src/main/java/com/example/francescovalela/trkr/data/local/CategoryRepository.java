@@ -7,6 +7,7 @@ import static android.support.test.espresso.core.deps.guava.base.Preconditions.c
 import com.example.francescovalela.trkr.logExpense.models.Category;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class CategoryRepository implements CategoryDataSource {
 
     private final CategoryDataSource mCategoryLocalDataSource;
 
-    Map<String, Category> categoryMap;
+    Map<String, Category> categoryMap = new LinkedHashMap<>();
 
     // Makes sure to only instantiate once
     private CategoryRepository(@NonNull CategoryDataSource categoryLocalDataSource) {
@@ -52,6 +53,9 @@ public class CategoryRepository implements CategoryDataSource {
         mCategoryLocalDataSource.getCategories(new LoadCategoryCallback() {
             @Override
             public void onCategoriesLoaded(List<Category> categories) {
+                for (Category category : categories) {
+                    categoryMap.put(String.valueOf(category.getId()),category);
+                }
                 callback.onCategoriesLoaded(new ArrayList<>(categoryMap.values()));
             }
 

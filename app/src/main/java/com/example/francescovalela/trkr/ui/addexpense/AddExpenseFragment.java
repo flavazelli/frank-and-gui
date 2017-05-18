@@ -1,6 +1,7 @@
 package com.example.francescovalela.trkr.ui.addExpense;
 
 import android.support.v4.app.*;
+import android.support.v4.widget.*;
 import android.content.Intent;
 import android.graphics.Color;
 import android.icu.text.SimpleDateFormat;
@@ -13,19 +14,25 @@ import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.example.francescovalela.trkr.R;
+import com.example.francescovalela.trkr.logExpense.models.Category;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-
 
 import static android.app.Activity.RESULT_OK;
 import static android.support.test.espresso.core.deps.guava.base.Preconditions.checkNotNull;
@@ -34,7 +41,7 @@ import static android.support.test.espresso.core.deps.guava.base.Preconditions.c
  * Created by francescovalela on 2017-04-04.
  */
 
-public class AddExpenseFragment extends Fragment implements AddExpenseContract.View {
+public class AddExpenseFragment extends Fragment implements AddExpenseContract.View, AdapterView.OnItemSelectedListener {
 
     private String name;
     private double cost, locationLong, locationLat;
@@ -48,6 +55,9 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
     int PLACE_PICKER_REQUEST = 1;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
+    private View RootView;
+    private Spinner spinner;
+    private List<Category> categoryList;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onCreate (Bundle savedInstanceState) {
@@ -69,7 +79,7 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        final View RootView = inflater.inflate(R.layout.fragment_addexpense, container, false);
+        RootView = inflater.inflate(R.layout.fragment_addexpense, container, false);
 
         //sets date to current date
         final Calendar c = Calendar.getInstance();
@@ -102,6 +112,10 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
                 }
             }
         });
+
+
+        mAddExpensePresenter.loadCategoriesInSpinner();
+
         //FAB
         FloatingActionButton fab = (FloatingActionButton) RootView.findViewById(R.id.fab_submit_expense);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +178,7 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
         this.locationLat = locationLat;
     }
 
+    //Used for AddExpenseLocationFragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
@@ -217,7 +232,7 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
         return methodOfPaymentId;
     }
 
-    public void setMethodOfPaymentId(int methodOfPaymentId) {
+    public void setMethodOfPaymentId(int methodOfPaymentId) { //TODO same spinner thing as categories but with this
         this.methodOfPaymentId = methodOfPaymentId;
     }
 
@@ -294,7 +309,6 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
 
             errorMessage.show();
 
-            resetExpenseFields();
         } else {
             mAddExpensePresenter.addExpense(getExpenseId(), mAddExpenseActivity.getDate(), getName(),
                     getCost(), getLocationLat(), getLocationLong(),
@@ -304,6 +318,49 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
                     .setActionTextColor(Color.GREEN);
 
             successMessage.show();
+
         }
+    }
+
+    public void loadSpinnerData(List<Category> categories) {
+
+        categoryList = new ArrayList<>(categories);
+
+        List<String> categoriesToShow = new ArrayList<String>();
+
+        for (Category category: categories) {
+            categoriesToShow.add(category.getName());
+        }
+
+        //Populate spinner for category types
+        spinner = (Spinner) RootView.findViewById(R.id.expense_category_spinner);
+
+        spinner.setOnItemSelectedListener(this);
+
+        //Columns from DB to put into spinner
+        String[] fromColumns = {mAddExpensePresenter.getCategoryColumnName()};
+
+
+        //Load categories
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, categoriesToShow);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(categoryAdapter);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        for (Category category : categoryList) {
+            if ( category.getName() == parent.getItemAtPosition(position) ) {
+                setCategoryId(category.getId());
+                break;
+            }
+        }
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        setCategoryId(1);
     }
 }

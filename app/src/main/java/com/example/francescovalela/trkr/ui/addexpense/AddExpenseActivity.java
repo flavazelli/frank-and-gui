@@ -9,8 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 import com.example.francescovalela.trkr.R;
+import com.example.francescovalela.trkr.data.local.CategoryRepository;
+import com.example.francescovalela.trkr.data.local.category.CategoryLocalDataSource;
 import com.example.francescovalela.trkr.data.local.expense.ExpenseLocalDataSource;
 import com.example.francescovalela.trkr.data.local.ExpenseRepository;
+import com.facebook.stetho.Stetho;
 
 import java.util.Date;
 
@@ -21,7 +24,6 @@ import java.util.Date;
 public class AddExpenseActivity extends AppCompatActivity implements AddExpenseDateFragment.TheListener{
 
     private long date;
-    private AddExpensePresenter mAddExpensePresenter;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -36,7 +38,13 @@ public class AddExpenseActivity extends AppCompatActivity implements AddExpenseD
         Fragment mAddExpenseFragment = new AddExpenseFragment();
         fragmentTransaction.add(R.id.fragmentPlaceholder, mAddExpenseFragment).commit();
 
-        mAddExpensePresenter = new AddExpensePresenter(ExpenseRepository.getInstance(ExpenseLocalDataSource.getInstance(getApplicationContext())), (AddExpenseContract.View) mAddExpenseFragment);
+        ExpenseRepository mExpenseRepository = ExpenseRepository.getInstance(ExpenseLocalDataSource.getInstance(getApplicationContext()));
+
+        CategoryRepository mCategoryRepository = CategoryRepository.getInstance(CategoryLocalDataSource.getInstance(getApplicationContext()));
+
+        AddExpensePresenter mAddExpensePresenter = new AddExpensePresenter(mExpenseRepository, mCategoryRepository, (AddExpenseContract.View) mAddExpenseFragment);
+
+
     }
 
     //Takes passed value, sets the value to date and then displays it in textView

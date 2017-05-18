@@ -2,6 +2,9 @@ package com.example.francescovalela.trkr.ui.addExpense;
 
 import com.example.francescovalela.trkr.BasePresenter;
 import com.example.francescovalela.trkr.BaseView;
+import com.example.francescovalela.trkr.logExpense.models.Category;
+
+import java.util.List;
 
 import static android.R.attr.name;
 
@@ -27,6 +30,7 @@ public interface AddExpenseContract {
         // resets all fields
         void resetExpenseFields();
 
+        void loadSpinnerData(List<Category> categoriesToShow);
     }
 
     interface Presenter extends BasePresenter {
@@ -34,5 +38,8 @@ public interface AddExpenseContract {
         void addExpense(int expenseId, long date, String name, double cost,
                         double locationLat, double locationLong, int methodOfPaymentId, int categoryId);
 
+        void loadCategoriesInSpinner();
+
+        String getCategoryColumnName();
     }
 }

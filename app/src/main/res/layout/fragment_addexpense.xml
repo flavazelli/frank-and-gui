@@ -172,13 +172,11 @@
             android:layout_height="wrap_content"
             android:text="Category"/>
 
-        <EditText
+        <Spinner
             android:layout_width="185dp"
-            android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:maxLines="1"
-            android:inputType="text"
-            android:id="@+id/expense_category_edit_text"
+            android:layout_height="wrap_content"
+            android:id="@+id/expense_category_spinner"
             android:textSize="14sp"/>
 
     </LinearLayout>

@@ -23,24 +23,26 @@ public class CategoryDBHelper extends SQLiteOpenHelper {
                     ");";
 
     private static final String INSERT_DEFAULT_DATA = "INSERT INTO " + CategoryContract.CategoryEntry.TABLE_NAME +
-            " VALUES ('Automobile'), " +
-            " ('Bank Charges'), " +
-            " ('Charity'), " +
-            " ('Childcare'), " +
+            " (" + CategoryEntry.COLUMN_NAME_NAME + ") " +
+            " VALUES ('Other'), " +
+//            " ('Bank Charges'), " +
+//            " ('Charity'), " +
+//            " ('Childcare'), " +
             " ('Clothing'), " +
-            " ('Credit Card Fees'), " +
-            " ('Education'), " +
-            " ('Events') , " +
+//            " ('Credit Card Fees'), " +
+//            " ('Education'), " +
+//            " ('Events') , " +
             " ('Food & Drinks'), " +
             " ('Gifts'), " +
-            " ('Healthcare'), " +
-            " ('Household'), " +
-            " ('Insurance'), " +
+//            " ('Healthcare'), " +
+//            " ('Household'), " +
+//            " ('Insurance'), " +
             " ('Leisure'), " +
-            " ('Hobbies'), " +
-            " ('Loans'), " +
-            " ('Pet Care'), " +
-            " ('Vacation')";
+//            " ('Hobbies'), " +
+//            " ('Loans'), " +
+//            " ('Pet Care'), " +
+//            " ('Vacation')";
+            " ('Automobile')";
 
     private static final String SQL_DELETE_ENTRIES_CATEGORY =
             "DROP TABLE IF EXISTS " + CategoryContract.CategoryEntry.TABLE_NAME;

@@ -26,8 +26,8 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
                     ExpenseEntry.COLUMN_NAME_COST + " REAL NOT NULL," +
                     ExpenseEntry.COLUMN_NAME_LOCATIONLONG + " REAL NOT NULL," +
                     ExpenseEntry.COLUMN_NAME_LOCATIONLAT + " REAL NOT NULL," +
-                    ExpenseEntry.COLUMN_NAME_METHODOFPAYMENTID + " INTEGER NOT NULL," +
-                    ExpenseEntry.COLUMN_NAME_CATEGORYID + " INTEGER NOT NULL, " +
+                    ExpenseEntry.COLUMN_NAME_METHODOFPAYMENTID + " INTEGER," +
+                    ExpenseEntry.COLUMN_NAME_CATEGORYID + " INTEGER, " +
                     ExpenseEntry.COLUMN_NAME_DATE + " INTEGER NOT NULL" +
                     ");";
 

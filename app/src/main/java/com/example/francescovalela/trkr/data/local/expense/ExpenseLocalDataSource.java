@@ -157,17 +157,16 @@ public class ExpenseLocalDataSource implements ExpenseDataSource {
         values.put(ExpenseEntry.COLUMN_NAME_DATE, String.valueOf(expense.getDate()));
         values.put(ExpenseEntry.COLUMN_NAME_NAME, expense.getName());
         values.put(ExpenseEntry.COLUMN_NAME_COST, expense.getCost());
-        values.put(ExpenseEntry.COLUMN_NAME_LOCATIONLAT, expense.getLocation()[0]);//TODO check if this works
+        values.put(ExpenseEntry.COLUMN_NAME_LOCATIONLAT, expense.getLocation()[0]);
         values.put(ExpenseEntry.COLUMN_NAME_LOCATIONLONG, expense.getLocation()[1]);
         // TODO find out how to get methodofpayment from the ID
-        // values.put(ExpenseEntry.COLUMN_NAME_METHODOFPAYMENTID, expense.getMethodOfPayment());
+        values.put(ExpenseEntry.COLUMN_NAME_METHODOFPAYMENTID, 1);
         // TODO find out how to get category from the ID
-        //values.put(ExpenseEntry.COLUMN_NAME_CATEGORYID, expense.getCategory());
+        values.put(ExpenseEntry.COLUMN_NAME_CATEGORYID, 1);
 
         db.insert(ExpenseEntry.TABLE_NAME, null, values);
 
-        Log.d("inserted into db", "inserted into db");
-
+        Log.d("insert expense in db", "insert expense in db");
         db.close();
     }
 
