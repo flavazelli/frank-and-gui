@@ -1,6 +1,18 @@
 package com.example.francescovalela.trkr.logExpense.models;
 
+import android.util.Log;
+
+import com.example.francescovalela.trkr.data.local.MethodOfPaymentDataSource;
+import com.example.francescovalela.trkr.data.local.MethodOfPaymentRepository;
+import com.example.francescovalela.trkr.data.local.MethodOfPaymentTypeDataSource;
+import com.example.francescovalela.trkr.data.local.MethodOfPaymentTypeRepository;
+import com.example.francescovalela.trkr.data.local.methodofpayment.MethodOfPaymentLocalDataSource;
+import com.example.francescovalela.trkr.data.local.methodofpaymenttype.MethodOfPaymentTypeLocalDataSource;
+
 import java.util.Date;
+import java.util.List;
+
+import static android.support.test.InstrumentationRegistry.getContext;
 
 /**
  * Created by flavazelli on 2017-02-12.
@@ -44,13 +56,30 @@ public class MethodOfPayment {
         this.nickname = nickname;
     }
 
-    //TODO get methodtype
+    //Queries the db to find the type
+    public String getMethodOfPaymentType() {
 
-    /*public MethodOfPaymentType getMethodOfPaymentType() {
+        final String[] typeToReturn = new String[1];
 
-        return null;
-    } */
+        MethodOfPaymentTypeRepository mMethodOfPaymentTypeRepository = MethodOfPaymentTypeRepository.getInstance(MethodOfPaymentTypeLocalDataSource.getInstance(getContext()));
 
+        mMethodOfPaymentTypeRepository.getMethodOfPaymentType(getId(), new MethodOfPaymentTypeDataSource.GetMethodOfPaymentTypeCallback() {
+
+            @Override
+            public void onMethodOfPaymentTypeLoaded(MethodOfPaymentType type) {
+                typeToReturn[0] = type.getName();
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                Log.e("no type available", "no type available");
+            }
+        });
+
+        return typeToReturn[0];
+    }
+
+    //should not be able to set (non feature yet)
     public void setMethodOfPaymentTypeId(int methodOfPaymentTypeId) {
         this.methodOfPaymentTypeId = methodOfPaymentTypeId;
     }

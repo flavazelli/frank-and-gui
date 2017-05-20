@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
 import com.example.francescovalela.trkr.data.local.MethodOfPaymentDataSource;
+import com.example.francescovalela.trkr.data.local.category.CategoryContract;
 import com.example.francescovalela.trkr.logExpense.models.MethodOfPayment;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class MethodOfPaymentLocalDataSource implements MethodOfPaymentDataSource
     }
 
     @Override
-    public void getMethodOfPayments(@NonNull MethodOfPaymentDataSource.LoadMethodOfPaymentsCallback callback) {
+    public void getMethodOfPayments(@NonNull LoadMethodOfPaymentsCallback callback) {
         List<MethodOfPayment> methodOfPayments = new ArrayList<MethodOfPayment>();
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
@@ -90,6 +91,7 @@ public class MethodOfPaymentLocalDataSource implements MethodOfPaymentDataSource
         // because ID is primary key, it's all we need to search
         String selection = MethodOfPaymentContract.MethodOfPaymentEntry.COLUMN_NAME_METHODOFPAYMENTID + " LIKE ?";
         String[] selectionArgs = { methodOdfPaymentId };
+
 
 
         Cursor c = db.query(MethodOfPaymentContract.MethodOfPaymentEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, null);

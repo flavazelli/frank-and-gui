@@ -10,9 +10,11 @@ import android.view.View;
 import android.widget.TextView;
 import com.example.francescovalela.trkr.R;
 import com.example.francescovalela.trkr.data.local.CategoryRepository;
+import com.example.francescovalela.trkr.data.local.MethodOfPaymentRepository;
 import com.example.francescovalela.trkr.data.local.category.CategoryLocalDataSource;
 import com.example.francescovalela.trkr.data.local.expense.ExpenseLocalDataSource;
 import com.example.francescovalela.trkr.data.local.ExpenseRepository;
+import com.example.francescovalela.trkr.data.local.methodofpayment.MethodOfPaymentLocalDataSource;
 import com.facebook.stetho.Stetho;
 
 import java.util.Date;
@@ -42,7 +44,9 @@ public class AddExpenseActivity extends AppCompatActivity implements AddExpenseD
 
         CategoryRepository mCategoryRepository = CategoryRepository.getInstance(CategoryLocalDataSource.getInstance(getApplicationContext()));
 
-        AddExpensePresenter mAddExpensePresenter = new AddExpensePresenter(mExpenseRepository, mCategoryRepository, (AddExpenseContract.View) mAddExpenseFragment);
+        MethodOfPaymentRepository mMethodOfPaymentRepository = MethodOfPaymentRepository.getInstance(MethodOfPaymentLocalDataSource.getInstance(getApplicationContext()));
+
+        AddExpensePresenter mAddExpensePresenter = new AddExpensePresenter(mExpenseRepository, mCategoryRepository, mMethodOfPaymentRepository, (AddExpenseContract.View) mAddExpenseFragment);
 
 
     }

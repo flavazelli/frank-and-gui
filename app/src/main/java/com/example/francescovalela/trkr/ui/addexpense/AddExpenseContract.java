@@ -3,6 +3,7 @@ package com.example.francescovalela.trkr.ui.addExpense;
 import com.example.francescovalela.trkr.BasePresenter;
 import com.example.francescovalela.trkr.BaseView;
 import com.example.francescovalela.trkr.logExpense.models.Category;
+import com.example.francescovalela.trkr.logExpense.models.MethodOfPayment;
 
 import java.util.List;
 
@@ -30,7 +31,10 @@ public interface AddExpenseContract {
         // resets all fields
         void resetExpenseFields();
 
-        void loadSpinnerData(List<Category> categoriesToShow);
+        void loadCategoriesSpinnerData(List<Category> categoriesToShow);
+
+        void loadMethodOfPaymentSpinnerData(List<MethodOfPayment> methodOfPayments);
+
     }
 
     interface Presenter extends BasePresenter {
@@ -40,6 +44,11 @@ public interface AddExpenseContract {
 
         void loadCategoriesInSpinner();
 
+        void loadMethodOfPaymentInSpinner();
+
         String getCategoryColumnName();
+
+        String getMethodOfPaymentColumnName();
+
     }
 }

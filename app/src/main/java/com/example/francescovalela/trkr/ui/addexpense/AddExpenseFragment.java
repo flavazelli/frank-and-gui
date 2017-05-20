@@ -23,11 +23,13 @@ import android.widget.TextView;
 
 import com.example.francescovalela.trkr.R;
 import com.example.francescovalela.trkr.logExpense.models.Category;
+import com.example.francescovalela.trkr.logExpense.models.MethodOfPayment;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -58,6 +60,8 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
     private View RootView;
     private Spinner spinner;
     private List<Category> categoryList;
+    private List<MethodOfPayment> methodOfPaymentList;
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onCreate (Bundle savedInstanceState) {
@@ -113,8 +117,9 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
             }
         });
 
-
+        mAddExpensePresenter.loadMethodOfPaymentInSpinner();
         mAddExpensePresenter.loadCategoriesInSpinner();
+
 
         //FAB
         FloatingActionButton fab = (FloatingActionButton) RootView.findViewById(R.id.fab_submit_expense);
@@ -322,7 +327,7 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
         }
     }
 
-    public void loadSpinnerData(List<Category> categories) {
+    public void loadCategoriesSpinnerData(List<Category> categories) {
 
         categoryList = new ArrayList<>(categories);
 
@@ -338,6 +343,7 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
         spinner.setOnItemSelectedListener(this);
 
         //Columns from DB to put into spinner
+        //potentially not needed
         String[] fromColumns = {mAddExpensePresenter.getCategoryColumnName()};
 
 
@@ -347,13 +353,48 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
         spinner.setAdapter(categoryAdapter);
     }
 
-    @Override
+    public void loadMethodOfPaymentSpinnerData(List<MethodOfPayment> methodOfPayments) {
+
+        methodOfPaymentList = new ArrayList<>(methodOfPayments);
+
+        List<String> methodOfPaymentToShow = new ArrayList<>();
+
+        for (MethodOfPayment methodOfPayment: methodOfPayments) {
+            methodOfPaymentToShow.add(methodOfPayment.getNickname());
+        }
+
+        //Populate spinner for methodofpayment types
+        spinner = (Spinner) RootView.findViewById(R.id.expense_methodOfPayment_spinner);
+
+        spinner.setOnItemSelectedListener(this);
+
+        //Columns from DB to put into spinner
+        //potentially not needed
+        String[] fromColumns = {mAddExpensePresenter.getMethodOfPaymentColumnName()};
+
+        //Load categories
+        ArrayAdapter<String> methodOfPaymentAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, methodOfPaymentToShow);
+        methodOfPaymentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(methodOfPaymentAdapter);
+    }
+
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        for (Category category : categoryList) {
-            if ( category.getName() == parent.getItemAtPosition(position) ) {
-                setCategoryId(category.getId());
-                break;
+        Spinner spinner = (Spinner) parent;
+
+        if (spinner.getId() == R.id.expense_category_spinner) {
+            for (Category category : categoryList) {
+                if (category.getName() == parent.getItemAtPosition(position)) {
+                    setCategoryId(category.getId());
+                    break;
+                }
+            }
+        } else if (spinner.getId() == R.id.expense_methodOfPayment_spinner) {
+            for (MethodOfPayment methodOfPayment : methodOfPaymentList) {
+                if (methodOfPayment.getNickname() == parent.getItemAtPosition(position)) {
+                    setMethodOfPaymentId(methodOfPayment.getId());
+                    break;
+                }
             }
         }
 
