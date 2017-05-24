@@ -19,12 +19,6 @@ public interface AddExpenseContract {
 
     interface View extends BaseView<Presenter> {
 
-        //for submit button result
-        void showMissingFields();
-
-        //popup location map //todo will open up fragment that will then send back location object/list
-        void showLocationMap();
-
         // checks if all fields match
         boolean validateExpenseFields();
 

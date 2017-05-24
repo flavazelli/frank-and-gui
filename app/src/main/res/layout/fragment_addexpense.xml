@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -182,21 +184,42 @@
     </LinearLayout>
 
     <!-- for buttons -->
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="right|bottom">
+        android:gravity="end|bottom">
 
-        <!-- to submit expense -->
+        <!-- to reset expense fields -->
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_submit_expense"
+            android:id="@+id/fab_resetFields_expense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/fab_margin"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@android:drawable/ic_menu_revert"
+            app:elevation="@dimen/fab_elevation"
+            />
+
+        <!-- We need the frame layout to set the margin between FABs-->
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:src="@android:drawable/ic_secure"
-            />
+            app:layout_anchor="@id/fab_resetFields_expense"
+            app:layout_anchorGravity="bottom|end">
 
-    </RelativeLayout>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_submit_expense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:layout_marginEnd="@dimen/fab_margin"
+                android:layout_marginRight="@dimen/fab_margin"
+                android:layout_gravity="bottom|end"
+                android:src="@android:drawable/ic_input_add"
+                />
+        </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout>

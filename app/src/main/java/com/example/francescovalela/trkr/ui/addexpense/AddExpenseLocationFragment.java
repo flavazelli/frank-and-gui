@@ -26,8 +26,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * Created by francescovalela on 2017-03-16.
  */
 
-
-//todo how to call this activity from button? button from xml to main activity then to this fragment
 public class AddExpenseLocationFragment extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     TheListener listener;

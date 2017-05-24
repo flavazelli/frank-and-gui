@@ -64,7 +64,7 @@ public class AddExpenseActivity extends AppCompatActivity implements AddExpenseD
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         String selectedDate = sdf.format(formattedDate.getTime());
 
-        @SuppressWarnings("ConstantConditions") TextView dateTV = (TextView) findViewById(R.id.expense_date_text_view);
+        TextView dateTV = (TextView) findViewById(R.id.expense_date_text_view);
         dateTV.setText(selectedDate);
     }
 

@@ -47,26 +47,25 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
 
     private String name;
     private double cost, locationLong, locationLat;
-    private long date;
+    long currentDate;
     private int expenseId, methodOfPaymentId, categoryId;
     private AddExpenseActivity mAddExpenseActivity;
     private AddExpenseContract.Presenter mAddExpensePresenter;
     private Button showDate;
     private Button get_place;
     private TextView locationTV;
-    int PLACE_PICKER_REQUEST = 1;
+    private int PLACE_PICKER_REQUEST = 1;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private View RootView;
-    private Spinner spinner;
+    private Spinner spinnerCategory;
+    private Spinner spinnerMethodOfPayment;
     private List<Category> categoryList;
     private List<MethodOfPayment> methodOfPaymentList;
 
-
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void onCreate (Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         //Fragment Manager
         fragmentManager = getChildFragmentManager();
@@ -74,28 +73,20 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
         fragmentTransaction = getChildFragmentManager().beginTransaction();
 
         mAddExpenseActivity = (AddExpenseActivity) getActivity();
-
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
+        // Inflate the layout for this fragment
         RootView = inflater.inflate(R.layout.fragment_addexpense, container, false);
 
         //sets date to current date
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-
-        long currentDate = c.getTimeInMillis();
+        Calendar c = Calendar.getInstance();
+        currentDate = c.getTimeInMillis();
 
         returnDate(currentDate, RootView);
-
-
 
         //sets location objects
         locationTV = (TextView) RootView.findViewById(R.id.expense_location_text_view);
@@ -116,78 +107,40 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
                 }
             }
         });
+        //sets default location coordinates
+        setDefaultLocation();
 
         mAddExpensePresenter.loadMethodOfPaymentInSpinner();
         mAddExpensePresenter.loadCategoriesInSpinner();
 
-
-        //FAB
-        FloatingActionButton fab = (FloatingActionButton) RootView.findViewById(R.id.fab_submit_expense);
-        fab.setOnClickListener(new View.OnClickListener() {
+        //FAB: Submit
+        FloatingActionButton fabSubmit = (FloatingActionButton) RootView.findViewById(R.id.fab_submit_expense);
+        fabSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 submit(RootView);
             }
         });
 
+        //FAB: Reset Fields
+        FloatingActionButton fabReset = (FloatingActionButton) RootView.findViewById(R.id.fab_resetFields_expense);
+        fabReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resetExpenseFields();
+            }
+        });
+
         return RootView;
-    }
-
-    @Override
-    public void showMissingFields() {
-
-    }
-
-    @Override
-    public void showLocationMap() {
-
-    }
-
-    public String getName() {
-
-        EditText expenseNameET = (EditText) getView().findViewById(R.id.expense_name_edit_text);
-
-        String expenseName = String.valueOf(expenseNameET.getText());
-
-        return expenseName;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getCost() {
-
-        EditText expenseCostET = (EditText) getView().findViewById(R.id.expense_cost_edit_text);
-
-        double expenseCost = Double.parseDouble(String.valueOf(expenseCostET.getText()));
-
-        return expenseCost;
-    }
-
-    public void setCost(double cost) { this.cost = cost; }
-
-    public double getLocationLong() {
-        return locationLong;
-    }
-
-    public void setLocationLong(double locationLong) {
-        this.locationLong = locationLong;
-    }
-
-    public double getLocationLat() {
-        return locationLat;
-    }
-
-    public void setLocationLat(double locationLat) {
-        this.locationLat = locationLat;
     }
 
     //Used for AddExpenseLocationFragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Place selectedPlace = PlacePicker.getPlace(getActivity(), data);
+
                 final String name = selectedPlace.getName().toString();
                 final String address = selectedPlace.getAddress().toString();
                 final String placeId = selectedPlace.getId();
@@ -197,6 +150,13 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
                 returnLocation(name, address, latitude, longitude, placeId);
             }
         }
+    }
+
+    private void setDefaultLocation() {
+        setLocationLat(45.4935865); //moosebawr
+        setLocationLong(-73.5797216);
+
+        locationTV.setText("");
     }
 
     //Used by AddExpenseLocationFragment
@@ -220,33 +180,151 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         String selectedDate = sdf.format(formattedDate.getTime());
 
-        @SuppressWarnings("ConstantConditions") TextView dateTV = (TextView) RootView.findViewById(R.id.expense_date_text_view);
+        TextView dateTV = (TextView) RootView.findViewById(R.id.expense_date_text_view);
         dateTV.setText(selectedDate);
     }
 
-    public int getExpenseId() {
+    //creates & populates category spinner
+    public void loadCategoriesSpinnerData(List<Category> categories) {
 
-        return expenseId;
+        categoryList = new ArrayList<>(categories);
+
+        List<String> categoriesToShow = new ArrayList<String>();
+
+        for (Category category : categories) {
+            categoriesToShow.add(category.getName());
+        }
+
+        //Populate spinner for category types
+        spinnerCategory = (Spinner) RootView.findViewById(R.id.expense_category_spinner);
+
+        spinnerCategory.setOnItemSelectedListener(this);
+
+        //Columns from DB to put into spinner
+        //potentially not needed
+        String[] fromColumns = {mAddExpensePresenter.getCategoryColumnName()};
+
+        //Load categories
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, categoriesToShow);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCategory.setAdapter(categoryAdapter);
     }
 
-    public void setExpenseId(int expenseId) {
-        this.expenseId = expenseId;
+    //creates & populates method of payment spinner
+    public void loadMethodOfPaymentSpinnerData(List<MethodOfPayment> methodOfPayments) {
+
+        methodOfPaymentList = new ArrayList<>(methodOfPayments);
+
+        List<String> methodOfPaymentToShow = new ArrayList<>();
+
+        for (MethodOfPayment methodOfPayment : methodOfPayments) {
+            methodOfPaymentToShow.add(methodOfPayment.getNickname());
+        }
+
+        //Populate spinner for methodofpayment types
+        spinnerMethodOfPayment = (Spinner) RootView.findViewById(R.id.expense_methodOfPayment_spinner);
+
+        spinnerMethodOfPayment.setOnItemSelectedListener(this);
+
+        //Columns from DB to put into spinner
+        //potentially not needed
+        String[] fromColumns = {mAddExpensePresenter.getMethodOfPaymentColumnName()};
+
+        //Load categories
+        ArrayAdapter<String> methodOfPaymentAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, methodOfPaymentToShow);
+        methodOfPaymentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerMethodOfPayment.setAdapter(methodOfPaymentAdapter);
     }
 
-    public int getMethodOfPaymentId() {
-        return methodOfPaymentId;
+    //called when a category or method of payment spinner is selected
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        Spinner spinnerSelected = (Spinner) parent;
+
+        if (spinnerSelected.getId() == R.id.expense_category_spinner) {
+            for (Category category : categoryList) {
+                if (category.getName() == parent.getItemAtPosition(position)) {
+                    setCategoryId(category.getId());
+                    break;
+                }
+            }
+        } else if (spinnerSelected.getId() == R.id.expense_methodOfPayment_spinner) {
+            for (MethodOfPayment methodOfPayment : methodOfPaymentList) {
+                if (methodOfPayment.getNickname() == parent.getItemAtPosition(position)) {
+                    setMethodOfPaymentId(methodOfPayment.getId());
+                    break;
+                }
+            }
+        }
     }
 
-    public void setMethodOfPaymentId(int methodOfPaymentId) { //TODO same spinner thing as categories but with this
-        this.methodOfPaymentId = methodOfPaymentId;
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+        Spinner spinnerSelected = (Spinner) parent;
+
+        if (spinnerSelected.getId() == R.id.expense_category_spinner) {
+            setCategoryId(1);
+        }
+        if (spinnerSelected.getId() == R.id.expense_methodOfPayment_spinner) {
+            setMethodOfPaymentId(1);
+        }
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    //Called when reset button is clicked
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void resetExpenseFields() {
+
+        //Name Edit Text Reset
+        EditText expenseNameET = (EditText) getView().findViewById(R.id.expense_name_edit_text);
+        expenseNameET.setText("");
+
+        //Cost Edit Text Reset
+        EditText expenseCostET = (EditText) getView().findViewById(R.id.expense_cost_edit_text);
+        expenseCostET.setText("");
+
+        //Date reset
+        returnDate(currentDate, RootView);
+
+        //Location Reset
+        setDefaultLocation();
+
+        //Spinner Reset
+        spinnerCategory.setSelection(1);
+        setCategoryId(1);
+        spinnerMethodOfPayment.setSelection(1);
+        setMethodOfPaymentId(1);
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    //TODO submit even if no location provided
+    //Called when submit button is clicked
+    public void submit(View rootView) {
+
+        if (!validateExpenseFields()) {
+            Snackbar errorMessage = Snackbar.make(rootView, "Invalid fields: Please correct red underlined fields", Snackbar.LENGTH_LONG)
+                    .setActionTextColor(Color.RED);
+
+            errorMessage.show();
+
+        } else {
+            mAddExpensePresenter.addExpense(getExpenseId(), mAddExpenseActivity.getDate(), getName(),
+                    getCost(), getLocationLat(), getLocationLong(),
+                    getMethodOfPaymentId(), getCategoryId());
+
+            Snackbar successMessage = Snackbar.make(rootView, "expense has been saved", Snackbar.LENGTH_LONG)
+                    .setActionTextColor(Color.GREEN);
+
+            successMessage.show();
+        }
+    }
+
+    //if all fields are validated, return true
+    @Override
+    public boolean validateExpenseFields() {
+
+        if (!isValidCost() || !isValidName()) return false;
+        else return true;
     }
 
     //Checks if name is of valid format
@@ -287,121 +365,80 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
         return matcher.matches();
     }
 
+    //validates presenter is not null
     @Override
     public void setPresenter(AddExpenseContract.Presenter presenter) {
         mAddExpensePresenter = checkNotNull(presenter);
-
     }
 
-    //if all fields are validated, return true
-    @Override
-    public boolean validateExpenseFields() {
+    /*-----------------
+    Getters & Setters
+    -------------------*/
+    public String getName() {
 
-        if (!isValidCost() || !isValidName()) return false;
-        else return true;
+        EditText expenseNameET = (EditText) getView().findViewById(R.id.expense_name_edit_text);
+        String expenseName = String.valueOf(expenseNameET.getText());
+
+        return expenseName;
     }
 
-    @Override
-    //todo start this
-    public void resetExpenseFields() {
+    public void setName(String name) {
+
+        EditText expenseNameET = (EditText) getView().findViewById(R.id.expense_name_edit_text);
+        expenseNameET.setText(name);
+        this.name = name;
     }
 
-    public void submit(View rootView) {
+    public double getCost() {
 
-        if (!validateExpenseFields()) {
-            Snackbar errorMessage = Snackbar.make(rootView, "Invalid fields: Please correct red underlined fields", Snackbar.LENGTH_LONG)
-                    .setActionTextColor(Color.RED);
+        EditText expenseCostET = (EditText) getView().findViewById(R.id.expense_cost_edit_text);
+        double expenseCost = Double.parseDouble(String.valueOf(expenseCostET.getText()));
 
-            errorMessage.show();
-
-        } else {
-            mAddExpensePresenter.addExpense(getExpenseId(), mAddExpenseActivity.getDate(), getName(),
-                    getCost(), getLocationLat(), getLocationLong(),
-                    getMethodOfPaymentId(), getCategoryId());
-
-            Snackbar successMessage = Snackbar.make(rootView, "expense has been saved", Snackbar.LENGTH_LONG)
-                    .setActionTextColor(Color.GREEN);
-
-            successMessage.show();
-
-        }
+        return expenseCost;
     }
 
-    public void loadCategoriesSpinnerData(List<Category> categories) {
+    public void setCost(double cost) {
 
-        categoryList = new ArrayList<>(categories);
-
-        List<String> categoriesToShow = new ArrayList<String>();
-
-        for (Category category: categories) {
-            categoriesToShow.add(category.getName());
-        }
-
-        //Populate spinner for category types
-        spinner = (Spinner) RootView.findViewById(R.id.expense_category_spinner);
-
-        spinner.setOnItemSelectedListener(this);
-
-        //Columns from DB to put into spinner
-        //potentially not needed
-        String[] fromColumns = {mAddExpensePresenter.getCategoryColumnName()};
-
-
-        //Load categories
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, categoriesToShow);
-        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(categoryAdapter);
+        EditText expenseCostET = (EditText) getView().findViewById(R.id.expense_cost_edit_text);
+        expenseCostET.setText(String.valueOf(cost));
+        this.cost = cost;
     }
 
-    public void loadMethodOfPaymentSpinnerData(List<MethodOfPayment> methodOfPayments) {
-
-        methodOfPaymentList = new ArrayList<>(methodOfPayments);
-
-        List<String> methodOfPaymentToShow = new ArrayList<>();
-
-        for (MethodOfPayment methodOfPayment: methodOfPayments) {
-            methodOfPaymentToShow.add(methodOfPayment.getNickname());
-        }
-
-        //Populate spinner for methodofpayment types
-        spinner = (Spinner) RootView.findViewById(R.id.expense_methodOfPayment_spinner);
-
-        spinner.setOnItemSelectedListener(this);
-
-        //Columns from DB to put into spinner
-        //potentially not needed
-        String[] fromColumns = {mAddExpensePresenter.getMethodOfPaymentColumnName()};
-
-        //Load categories
-        ArrayAdapter<String> methodOfPaymentAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, methodOfPaymentToShow);
-        methodOfPaymentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(methodOfPaymentAdapter);
+    public double getLocationLong() {
+        return locationLong;
     }
 
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-        Spinner spinner = (Spinner) parent;
-
-        if (spinner.getId() == R.id.expense_category_spinner) {
-            for (Category category : categoryList) {
-                if (category.getName() == parent.getItemAtPosition(position)) {
-                    setCategoryId(category.getId());
-                    break;
-                }
-            }
-        } else if (spinner.getId() == R.id.expense_methodOfPayment_spinner) {
-            for (MethodOfPayment methodOfPayment : methodOfPaymentList) {
-                if (methodOfPayment.getNickname() == parent.getItemAtPosition(position)) {
-                    setMethodOfPaymentId(methodOfPayment.getId());
-                    break;
-                }
-            }
-        }
-
+    public void setLocationLong(double locationLong) {
+        this.locationLong = locationLong;
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        setCategoryId(1);
+    public double getLocationLat() {
+        return locationLat;
+    }
+
+    public void setLocationLat(double locationLat) {
+        this.locationLat = locationLat;
+    }
+
+    public int getExpenseId() { return expenseId; }
+
+    public void setExpenseId(int expenseId) {
+        this.expenseId = expenseId;
+    }
+
+    public int getMethodOfPaymentId() {
+        return methodOfPaymentId;
+    }
+
+    public void setMethodOfPaymentId(int methodOfPaymentId) { this.methodOfPaymentId = methodOfPaymentId; }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 }
+
+
