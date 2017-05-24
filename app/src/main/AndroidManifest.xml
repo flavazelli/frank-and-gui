@@ -22,6 +22,10 @@
             android:name=".ui.addExpense.AddExpenseActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+            android:name=".ui.analytics.AnalyticsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
 
 
         <!-- Google API key & user permissions -->

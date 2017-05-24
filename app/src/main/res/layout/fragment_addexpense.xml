@@ -151,7 +151,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="method of payment"/>
+            android:text="Method of payment"/>
 
         <Spinner
             android:layout_width="185dp"
