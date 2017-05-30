@@ -1,21 +1,23 @@
 package com.example.francescovalela.trkr.ui.addExpense;
-import android.support.annotation.NonNull;
-import android.support.v4.app.*;
 import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+
 import com.example.francescovalela.trkr.R;
 import com.example.francescovalela.trkr.data.local.CategoryRepository;
+import com.example.francescovalela.trkr.data.local.ExpenseRepository;
 import com.example.francescovalela.trkr.data.local.MethodOfPaymentRepository;
 import com.example.francescovalela.trkr.data.local.category.CategoryLocalDataSource;
 import com.example.francescovalela.trkr.data.local.expense.ExpenseLocalDataSource;
-import com.example.francescovalela.trkr.data.local.ExpenseRepository;
 import com.example.francescovalela.trkr.data.local.methodofpayment.MethodOfPaymentLocalDataSource;
-import com.facebook.stetho.Stetho;
 
 import java.util.Date;
 
@@ -47,8 +49,6 @@ public class AddExpenseActivity extends AppCompatActivity implements AddExpenseD
         MethodOfPaymentRepository mMethodOfPaymentRepository = MethodOfPaymentRepository.getInstance(MethodOfPaymentLocalDataSource.getInstance(getApplicationContext()));
 
         AddExpensePresenter mAddExpensePresenter = new AddExpensePresenter(mExpenseRepository, mCategoryRepository, mMethodOfPaymentRepository, (AddExpenseContract.View) mAddExpenseFragment);
-
-
     }
 
     //Takes passed value, sets the value to date and then displays it in textView
@@ -69,7 +69,6 @@ public class AddExpenseActivity extends AppCompatActivity implements AddExpenseD
     }
 
     public void showDatePickerDialog(View v) {
-
 
         DialogFragment newFragment = new AddExpenseDateFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");

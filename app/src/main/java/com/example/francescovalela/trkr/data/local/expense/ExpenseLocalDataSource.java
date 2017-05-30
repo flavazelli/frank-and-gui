@@ -44,6 +44,7 @@ public class ExpenseLocalDataSource implements ExpenseDataSource {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] projection = {
+                ExpenseEntry.COLUMN_NAME_EXPENSEID,
                 ExpenseEntry.COLUMN_NAME_DATE,
                 ExpenseEntry.COLUMN_NAME_NAME,
                 ExpenseEntry.COLUMN_NAME_COST,
