@@ -35,7 +35,7 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE_ENTRIES_EXPENSE =
             "DROP TABLE IF EXISTS " + ExpenseContract.ExpenseEntry.TABLE_NAME;
 
-    private static final String INSERT_DEFAULT_DATA = "INSERT INTO " + CategoryContract.CategoryEntry.TABLE_NAME +
+    private static final String INSERT_DEFAULT_DATA = "INSERT INTO " + ExpenseContract.ExpenseEntry.TABLE_NAME +
             " (" + ExpenseEntry.COLUMN_NAME_NAME + ", " +
             ExpenseEntry.COLUMN_NAME_COST + ", " +
             ExpenseEntry.COLUMN_NAME_LOCATIONLONG + ", " +
@@ -43,11 +43,11 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
             ExpenseEntry.COLUMN_NAME_METHODOFPAYMENTID + ", " +
             ExpenseEntry.COLUMN_NAME_CATEGORYID + ", " +
             ExpenseEntry.COLUMN_NAME_DATE + ") " +
-            " VALUES ('1', 12.4, -70, 70, 1, 1, 0), " +
-            "('2', 42.4, -70, 70, 2, 2, 0), " +
-            "('3', 62.4, -70, 70, 2, 2, 1), " +
-            "('4', 12.4, -70, 70, 3, 3, 200), " +
-            "('5', 82.4, -70, 70, 4, 4, 0)";
+            " VALUES ('1', 12.49, -70, 70, 2, 1, 0), " +
+            "('2', 42.40, -70, 70, 2, 3, 0), " +
+            "('3', 62.41, -70, 70, 2, 2, 1), " +
+            "('4', 12.43, -70, 70, 3, 1, 3), " +
+            "('5', 82.47, -70, 70, 1, 3, 2)";
 
     public ExpenseDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -55,7 +55,7 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
 
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_ENTRIES_EXPENSE);
-        db.execSQL(INSERT_DEFAULT_DATA);
+        //db.execSQL(INSERT_DEFAULT_DATA);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

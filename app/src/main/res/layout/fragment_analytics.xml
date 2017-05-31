@@ -4,53 +4,49 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
     android:layout_marginBottom="20dp"
     android:layout_marginLeft="10dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Charts"
-        android:textSize="30sp"
+        android:text="Analytics"
+        android:textColorHint="@color/colorPrimaryDark"
+        android:textSize="25sp"
+        android:id="@+id/analytics_title_textView"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/textView" />
+        android:layout_centerHorizontal="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Cost"
+        android:textSize="15sp"
+        android:id="@+id/analytics_subtitle_textView"
+        android:layout_below="@+id/analytics_title_textView"
+        android:layout_centerHorizontal="true" />
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/linechart"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_below="@+id/textView"
-        android:layout_above="@+id/showPieChartCategory" />
+        android:layout_height="385dp"
+        android:layout_below="@+id/analytics_subtitle_textView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/piechart" />
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/piechart"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_below="@+id/textView"
-        android:layout_above="@+id/showPieChartMethodOfPayment" />
+        android:layout_height="385dp"
+        android:layout_below="@+id/analytics_subtitle_textView" />
 
-    <Button
-        android:layout_width="wrap_content"
+    <Spinner
+        android:layout_width="215dp"
         android:layout_height="wrap_content"
-        android:id="@+id/showPieChartMethodOfPayment"
+        android:id="@+id/analytics_chart_spinner"
         android:gravity="bottom"
-        android:text="Method of Payments"
-        android:elevation="6dp"
+        android:textSize="14sp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/showPieChartCategory"
-        android:gravity="bottom"
-        android:text="Categories"
-        android:elevation="6dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp" />
 
 </RelativeLayout>

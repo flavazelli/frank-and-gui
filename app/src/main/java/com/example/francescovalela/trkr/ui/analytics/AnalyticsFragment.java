@@ -11,8 +11,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.francescovalela.trkr.R;
 import com.example.francescovalela.trkr.logExpense.models.Category;
@@ -44,15 +48,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static android.R.attr.data;
+import static android.R.attr.key;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 import static android.media.CamcorderProfile.get;
 import static android.support.test.espresso.core.deps.guava.base.Preconditions.checkNotNull;
+import static com.example.francescovalela.trkr.R.id.cost;
 
 /**
  * Created by francescovalela on 2017-02-28.
  */
 
-public class AnalyticsFragment extends Fragment implements AnalyticsContract.View {
+public class AnalyticsFragment extends Fragment implements AnalyticsContract.View, AdapterView.OnItemSelectedListener {
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private AnalyticsActivity mAnalyticsActivity;
@@ -65,6 +72,7 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
     private float[] yData;
     private String[] xData;
     private PieChart mPieChart;
+    private String whatChartIsDisplaying;
 
     private RelativeLayout analyticsMainLayout;
     private LineChart mLineChart;
@@ -73,9 +81,6 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
     private List<Entry> entries;
     private LineDataSet dataSet;
     private LineData lineData;
-    private boolean isLineChartDataLoaded = false;
-    private boolean isPieChartCategoryDataLoaded = false;
-    private boolean isPieChartMethodofPaymentDataLoaded = false;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,20 +110,7 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
         //load data into cache
         mAnalyticsPresenter.loadExpenses();
 
-        //Buttons
-        Button buttonPieChartMethodofPayment = (Button) RootView.findViewById(R.id.showPieChartMethodOfPayment);
-        buttonPieChartMethodofPayment.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                buttonShowPieChartMethodofPayment(view);
-            }
-        });
-
-        Button buttonPieChartCategory = (Button) RootView.findViewById(R.id.showPieChartCategory);
-        buttonPieChartCategory.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                buttonShowPieChartCategory(view);
-            }
-        });
+        loadSpinnerData();
 
         createLineChart();
 
@@ -126,27 +118,56 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
 
     }
 
-    private void buttonShowPieChartCategory(View view) {
+    public void loadSpinnerData() {
+
+        List<String> differentDataToChart = new ArrayList<>();
+        differentDataToChart.add("Total Expenses");
+        differentDataToChart.add("Methods of Payment");
+        differentDataToChart.add("Categories");
+
+        //Populate spinner for different chart data
+        Spinner spinner = (Spinner) RootView.findViewById(R.id.analytics_chart_spinner);
+
+        spinner.setOnItemSelectedListener(this);
+
+        //Load categories
+        ArrayAdapter<String> chartAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, differentDataToChart);
+        chartAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(chartAdapter);
+    }
+    //called when a chart is chosen from the spinner
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        TextView titleTV = (TextView) RootView.findViewById(R.id.analytics_subtitle_textView);
+
+        Spinner spinnerSelected = (Spinner) parent;
+
+        if (parent.getItemAtPosition(position).equals("Methods of Payment")) {
+            titleTV.setText("By Methods of Payment");
+            mLineChart.setVisibility(View.GONE);
+            createPieChartMethodOfPayment(mapOfMethodOfPaymentCosts());
+            whatChartIsDisplaying = "Method of Payment";
+        } else if (parent.getItemAtPosition(position).equals("Categories")) {
+            titleTV.setText("Categories");
+            mLineChart.setVisibility(View.GONE);
+            createPieChartCategory(mapOfCategoryCosts());
+            whatChartIsDisplaying = "Category";
+        } else if (parent.getItemAtPosition(position).equals("Total Expenses")) {
+            titleTV.setText("Total Expenses");
+            mPieChart.setVisibility(View.GONE);
+            createLineChart();
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        //nothing needs to be done
     }
 
     @Override
     public void setPresenter(AnalyticsContract.Presenter presenter) {
         mAnalyticsPresenter = checkNotNull(presenter);
     }
-
-    private void buttonShowPieChartMethodofPayment(View view) {
-
-        if (isPieChartMethodofPaymentDataLoaded) {
-            mLineChart.setVisibility(View.GONE);
-            mPieChart.setVisibility(View.VISIBLE);
-            mPieChart.invalidate();
-        } else {
-
-        }
-
-        showPieChart(view);
-    }
-
     private void createLineChart() {
         mLineChart.setVisibility(View.VISIBLE);
         entries = new ArrayList<Entry>();
@@ -198,12 +219,28 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
         //styling and adding entries to chart object
         LineData lineData = new LineData(dataSet);
         mLineChart.setData(lineData);
-        mLineChart.invalidate(); // used to refresh //TODO will need to use when hitting new button along with notifyDataSetChanged()
+        mLineChart.invalidate(); // used to refresh
     }
 
     public void createPieChartCategory(Map<String, Double> dataToShow) {
         mPieChart.setVisibility(View.VISIBLE);
-        mPieChart.getDescription().setText("Categories in Percent");
+        mPieChart.getDescription().setText("Category Cost in Percent");
+        mPieChart.getDescription().setTextSize(14f);
+        mPieChart.setRotationEnabled(true);
+        mPieChart.setDrawEntryLabels(false);
+        mPieChart.getLegend().setEnabled(false);
+        mPieChart.setHoleRadius(60f);
+        mPieChart.setTransparentCircleAlpha(0);
+        mPieChart.setUsePercentValues(true);
+        mPieChart.animateY(1000);
+        mPieChart.spin(1400, 0, 180, Easing.EasingOption.EaseInOutQuad);
+        mPieChart.setNoDataText("");
+        addPieDataSet(dataToShow);
+    }
+
+    public void createPieChartMethodOfPayment(Map<String, Double> dataToShow) {
+        mPieChart.setVisibility(View.VISIBLE);
+        mPieChart.getDescription().setText("Method Of Payment Cost in Percent");
         mPieChart.getDescription().setTextSize(14f);
         mPieChart.setRotationEnabled(true);
         mPieChart.setDrawEntryLabels(false);
@@ -228,10 +265,6 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
 
     @Override
     public void getExpensesData(List<Expense> expensesToShow) {
-        //todo get all categories - DONE
-        //todo make new list w/ totals of each category
-        //todo get all methods of payments - DONE
-        //todo get total cost
 
         mAnalyticsPresenter.loadCategories();
         mAnalyticsPresenter.loadMethodOfPayments();
@@ -250,7 +283,12 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
         }
 
         for (Expense expense : mExpenses)
-            categoryCosts.put(categoriesMap.get(expense.getCategory()), expense.getCost());
+            categoryCosts.put(categoriesMap.get(expense.getCategory()), categoryCosts.get(categoriesMap.get(expense.getCategory())) + expense.getCost());
+
+        for (Category category : mCategories) {
+            if (categoryCosts.get(category.getName()) == 0)
+            categoryCosts.remove(category.getName());
+        }
 
         return categoryCosts;
     }
@@ -266,7 +304,12 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
         }
 
         for (Expense expense : mExpenses)
-            methodOfPaymentCosts.put(methodOfPaymentsMap.get(expense.getMethodOfPayment()), expense.getCost());
+            methodOfPaymentCosts.put(methodOfPaymentsMap.get(expense.getMethodOfPayment()), methodOfPaymentCosts.get(methodOfPaymentsMap.get(expense.getMethodOfPayment())) + expense.getCost());
+
+        for (MethodOfPayment methodOfPayment : mMethodOfPayments) {
+            if (methodOfPaymentCosts.get(methodOfPayment.getNickname()) == 0)
+                methodOfPaymentCosts.remove(methodOfPayment.getNickname());
+        }
 
         return methodOfPaymentCosts;
     }
@@ -277,22 +320,21 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
         Collection<Double> dataValue = dataToShow.values();
 
         xData = new String[dataValue.size()];
+        yData = new float[dataToShow.size()];
         ArrayList<PieEntry> yEntrys = new ArrayList<>();
 
         double temp = 0;
         int count = 0;
-        for (Double cost : dataValue) {
-            temp = dataToShow.get(cost);
+//        for (String key : dataKey) { //key isn't cost.
+//            temp = dataToShow.get(key);
+//            yData[count] = (float) temp;
+//            count++;
+//        }
+        for (String name : dataKey) {
+            temp = dataToShow.get(name);
+            xData[count] = name;
             yData[count] = (float) temp;
             count++;
-        }
-        for (String name : dataKey) {
-            xData[count] = name;
-            count++;
-        }
-        for (int i = 0; i<dataKey.size(); i++) {
-            temp = dataToShow.get(i);
-            yData[i] = (float) temp;
         }
 
         for (int i = 0; i < yData.length; i++) {
@@ -326,6 +368,34 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
         pieData.setValueFormatter(new PercentFormatter()); //for there to be a percent sign
         mPieChart.setData(pieData);
         mPieChart.invalidate();
+
+        mPieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                Log.d(TAG, "onValueSelected: Value select from chart.");
+                Log.d(TAG, "onValueSelected: " + e.toString());
+                Log.d(TAG, "onValueSelected: " + h.toString());
+                int pos1 = e.toString().indexOf("y:");
+                String totalExpenses = e.toString().substring(pos1 + 2);
+
+                for (int i = 0; i<yData.length; i++) {
+                    if(yData[i] == Float.parseFloat(totalExpenses)) {
+                        String test = "test: " + String.valueOf(yData[i]) + "\n" + xData[i];
+                        Log.d(TAG, test);
+                        pos1 = i;
+                        break;
+                    }
+                }
+                String categoryName = xData[pos1];
+                Snackbar.make(RootView,  whatChartIsDisplaying + ": " + categoryName + " - $" + totalExpenses, Snackbar.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onNothingSelected() {
+
+            }
+        });
     }
 
     private void updateDataLineChart() {
