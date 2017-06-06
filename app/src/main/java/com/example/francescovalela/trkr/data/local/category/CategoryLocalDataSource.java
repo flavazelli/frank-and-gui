@@ -53,6 +53,8 @@ public class CategoryLocalDataSource implements CategoryDataSource {
 
         Cursor c = db.query(CategoryEntry.TABLE_NAME, projection, null, null, null, null, null);
 
+
+
         if (c != null && c.getCount() > 0) {
             while (c.moveToNext()) {
 

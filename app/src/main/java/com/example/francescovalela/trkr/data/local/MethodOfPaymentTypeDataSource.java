@@ -26,11 +26,11 @@ public interface MethodOfPaymentTypeDataSource  {
 
     void getMethodOfPaymentTypes(@NonNull MethodOfPaymentTypeDataSource.LoadMethodOfPaymentTypesCallback callback);
 
-    void getMethodOfPaymentType(@NonNull String typeId, @NonNull GetMethodOfPaymentTypeCallback callback);
+    void getMethodOfPaymentType(@NonNull int typeId, @NonNull GetMethodOfPaymentTypeCallback callback);
 
     void saveMethodOfPaymentType(@NonNull MethodOfPaymentType type);
 
     void deleteAllMethodOfPaymentTypes();
 
-    void deleteMethodOfPaymentType(@NonNull String typeId);
+    void deleteMethodOfPaymentType(@NonNull int typeId);
 }

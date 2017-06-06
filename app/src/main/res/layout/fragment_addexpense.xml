@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:orientation="horizontal">
 
         <TextView
@@ -16,7 +18,7 @@
             android:layout_height="match_parent"
             android:textAlignment="center"
             android:text="Log An Expense"
-            android:textSize="20sp"
+            android:textSize="14sp"
             android:textStyle="bold"/>
 
     </LinearLayout>
@@ -24,7 +26,7 @@
     <!-- name attribute -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:orientation="horizontal"
         android:gravity="left">
 
@@ -37,15 +39,17 @@
             android:layout_width="185dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
+            android:maxLines="1"
+            android:inputType="text"
             android:id="@+id/expense_name_edit_text"
-            android:textSize="20sp"/>
+            android:textSize="14sp"/>
 
     </LinearLayout>
 
     <!-- cost attribute -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:orientation="horizontal"
         android:gravity="left">
 
@@ -58,37 +62,39 @@
             android:layout_width="185dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
+            android:maxLines="1"
+            android:inputType="text"
             android:id="@+id/expense_cost_edit_text"
-            android:textSize="20sp"/>
+            android:textSize="14sp"/>
 
     </LinearLayout>
 
     <!-- date attribute -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="25dp"
         android:orientation="horizontal"
-        android:gravity="left">
+        android:gravity="start">
 
         <TextView
-            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Date" />
+            android:text="@string/date" />
 
         <TextView
             android:layout_width="185dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:id="@+id/expense_date_text_view"
-            android:textSize="20sp"/>
+            android:onClick="showDatePickerDialog"
+            android:textSize="14sp"/>
 
     </LinearLayout>
 
     <!-- button to display date fragment -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="45dp">
 
         <Button
             android:layout_width="wrap_content"
@@ -99,31 +105,32 @@
     </LinearLayout>
 
 
-    <!-- TODO change from edittext to location fragment -->
     <!-- location attribute -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:orientation="horizontal"
-        android:gravity="left">
+        android:gravity="start">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Location"/>
+            android:text="@string/addexpense_location_TV"/>
 
         <TextView
             android:layout_width="185dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:id="@+id/expense_location_text_view"
-            android:textSize="20sp"/>
+            android:textSize="14sp"/>
 
     </LinearLayout>
-
+    <!-- button to display location fragment -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="40dp"
@@ -137,28 +144,28 @@
     <!-- method of payment attribute -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:orientation="horizontal"
         android:gravity="left">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="method of payment"/>
+            android:text="Method of payment"/>
 
-        <EditText
+        <Spinner
             android:layout_width="185dp"
-            android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:id="@+id/expense_methodofpayment_edit_text"
-            android:textSize="20sp"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/expense_methodOfPayment_spinner"
+            android:textSize="14sp"/>
 
     </LinearLayout>
 
     <!-- category attribute -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:orientation="horizontal"
         android:gravity="left">
 
@@ -167,42 +174,52 @@
             android:layout_height="wrap_content"
             android:text="Category"/>
 
-        <EditText
+        <Spinner
             android:layout_width="185dp"
-            android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:id="@+id/expense_category_edit_text"
-            android:textSize="20sp"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/expense_category_spinner"
+            android:textSize="14sp"/>
 
     </LinearLayout>
 
     <!-- for buttons -->
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="right|bottom">
+        android:gravity="end|bottom">
 
-        <!-- to submit expense -->
+        <!-- to reset expense fields -->
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_submit_expense"
+            android:id="@+id/fab_resetFields_expense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/fab_margin"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@android:drawable/ic_menu_revert"
+            app:elevation="@dimen/fab_elevation"
+            />
+
+        <!-- We need the frame layout to set the margin between FABs-->
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:src="@android:drawable/ic_secure"
-            />
+            app:layout_anchor="@id/fab_resetFields_expense"
+            app:layout_anchorGravity="bottom|end">
 
-    </RelativeLayout>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_submit_expense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:layout_marginEnd="@dimen/fab_margin"
+                android:layout_marginRight="@dimen/fab_margin"
+                android:layout_gravity="bottom|end"
+                android:src="@android:drawable/ic_input_add"
+                />
+        </FrameLayout>
+    </LinearLayout>
 
-    <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="com.google.android.gms.maps.SupportMapFragment" /> -->
-
-    <fragment
-        class="com.google.android.gms.maps.MapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/expense_show_map"/>
 </LinearLayout>

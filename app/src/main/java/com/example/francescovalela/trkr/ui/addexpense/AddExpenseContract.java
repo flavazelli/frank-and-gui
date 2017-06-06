@@ -2,6 +2,10 @@ package com.example.francescovalela.trkr.ui.addExpense;
 
 import com.example.francescovalela.trkr.BasePresenter;
 import com.example.francescovalela.trkr.BaseView;
+import com.example.francescovalela.trkr.logExpense.models.Category;
+import com.example.francescovalela.trkr.logExpense.models.MethodOfPayment;
+
+import java.util.List;
 
 import static android.R.attr.name;
 
@@ -15,17 +19,15 @@ public interface AddExpenseContract {
 
     interface View extends BaseView<Presenter> {
 
-        //for submit button result
-        void showMissingFields();
-
-        //popup location map //todo will open up fragment that will then send back location object/list
-        void showLocationMap();
-
         // checks if all fields match
         boolean validateExpenseFields();
 
         // resets all fields
         void resetExpenseFields();
+
+        void loadCategoriesSpinnerData(List<Category> categoriesToShow);
+
+        void loadMethodOfPaymentSpinnerData(List<MethodOfPayment> methodOfPayments);
 
     }
 
@@ -33,6 +35,14 @@ public interface AddExpenseContract {
 
         void addExpense(int expenseId, long date, String name, double cost,
                         double locationLat, double locationLong, int methodOfPaymentId, int categoryId);
+
+        void loadCategoriesInSpinner();
+
+        void loadMethodOfPaymentInSpinner();
+
+        String getCategoryColumnName();
+
+        String getMethodOfPaymentColumnName();
 
     }
 }

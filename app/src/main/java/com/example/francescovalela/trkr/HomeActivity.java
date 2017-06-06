@@ -8,7 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import  com.example.francescovalela.trkr.ui.addExpense.AddExpenseActivity;
-
+import com.example.francescovalela.trkr.ui.analytics.AnalyticsActivity;
+import com.facebook.stetho.Stetho;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -19,6 +20,8 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Stetho.initializeWithDefaults(this);
     }
 
     @Override
@@ -45,7 +48,8 @@ public class HomeActivity extends AppCompatActivity {
 
     public void logExpense(View view) {
 
-        Intent LogExpenseScreenIntent = new Intent(this,AddExpenseActivity.class);
+//        Intent LogExpenseScreenIntent = new Intent(this,AnalyticsActivity.class);
+        Intent LogExpenseScreenIntent = new Intent(this,AnalyticsActivity.class);
 
         startActivity(LogExpenseScreenIntent);
 

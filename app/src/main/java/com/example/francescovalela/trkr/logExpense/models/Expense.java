@@ -91,26 +91,17 @@ public class Expense {
 
     public void setLocationLong(double locationLong) { this.locationLong = locationLong; }
 
-    //TODO: getMethodOfPayment - search internal memory to get methodOfPayment from methodOfPaymentID
-    /*
     public int getMethodOfPayment() {
-
-        MethodOfPayment
-
         return methodOfPaymentId;
     }
-    */
 
     public void setMethodOfPaymentId(int methodOfPaymentId) {
         this.methodOfPaymentId = methodOfPaymentId;
     }
 
-    //TODO: getCategory - search internal memory to get category from categoryID
-    /*
     public int getCategory() {
         return categoryId;
     }
-    */
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;

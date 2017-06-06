@@ -6,7 +6,9 @@ import android.support.annotation.NonNull;
 import com.example.francescovalela.trkr.data.local.methodofpayment.MethodOfPaymentLocalDataSource;
 import com.example.francescovalela.trkr.logExpense.models.MethodOfPayment;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +24,7 @@ public class MethodOfPaymentRepository implements MethodOfPaymentDataSource {
 
     private final MethodOfPaymentDataSource mMethodOfPaymentLocalDataSource;
 
-    Map<String, MethodOfPayment> methodOfPaymentMap;
+    Map<String, MethodOfPayment> methodOfPaymentMap = new LinkedHashMap<>();
 
     private MethodOfPaymentRepository(@NonNull MethodOfPaymentDataSource methodOfPaymentLocalDataSource) {
         mMethodOfPaymentLocalDataSource = checkNotNull(methodOfPaymentLocalDataSource);
@@ -39,7 +41,10 @@ public class MethodOfPaymentRepository implements MethodOfPaymentDataSource {
     public void getMethodOfPayments(@NonNull final LoadMethodOfPaymentsCallback callback) {
         mMethodOfPaymentLocalDataSource.getMethodOfPayments(new LoadMethodOfPaymentsCallback() {
             @Override
-            public void onMethodOfPaymentsLoaded(List<MethodOfPayment> expenses) {
+            public void onMethodOfPaymentsLoaded(List<MethodOfPayment> methodOfPayments) {
+                for (MethodOfPayment methodOfPayment: methodOfPayments) {
+                    methodOfPaymentMap.put(String.valueOf(methodOfPayment.getId()),methodOfPayment);
+                }
                 callback.onMethodOfPaymentsLoaded(new ArrayList<> (methodOfPaymentMap.values()));
             }
 

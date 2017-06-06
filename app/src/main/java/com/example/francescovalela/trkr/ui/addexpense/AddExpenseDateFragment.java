@@ -2,28 +2,15 @@ package com.example.francescovalela.trkr.ui.addExpense;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.text.format.DateFormat;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v4.app.*;
 import android.widget.DatePicker;
-
-import com.example.francescovalela.trkr.R;
-
-import java.util.Date;
 
 //Fragment to display date picker
 public class AddExpenseDateFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-
 
     TheListener listener;
 
@@ -50,7 +37,6 @@ public class AddExpenseDateFragment extends DialogFragment implements DatePicker
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        // Do something with the date chosen by the user
 
         Calendar c = Calendar.getInstance();
 
@@ -58,9 +44,8 @@ public class AddExpenseDateFragment extends DialogFragment implements DatePicker
 
         if (listener != null)
         {
-            listener.returnDate(c.getTimeInMillis());
+           listener.returnDate(c.getTimeInMillis());
         }
-
     }
 
 }

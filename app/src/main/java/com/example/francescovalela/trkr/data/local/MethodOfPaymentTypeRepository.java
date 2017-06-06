@@ -53,7 +53,7 @@ public class MethodOfPaymentTypeRepository implements MethodOfPaymentTypeDataSou
     }
 
     @Override
-    public void getMethodOfPaymentType(@NonNull final String typeId, @NonNull final GetMethodOfPaymentTypeCallback callback) {
+    public void getMethodOfPaymentType(@NonNull final int typeId, @NonNull final GetMethodOfPaymentTypeCallback callback) {
         checkNotNull(typeId);
         checkNotNull(callback);
         mMethodOfPaymentTypeLocalDataSource.getMethodOfPaymentType(typeId, new GetMethodOfPaymentTypeCallback() {
@@ -83,7 +83,7 @@ public class MethodOfPaymentTypeRepository implements MethodOfPaymentTypeDataSou
     }
 
     @Override
-    public void deleteMethodOfPaymentType(@NonNull String typeId) {
+    public void deleteMethodOfPaymentType(@NonNull int typeId) {
         mMethodOfPaymentTypeLocalDataSource.deleteMethodOfPaymentType(typeId);
     }
 }

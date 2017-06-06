@@ -74,7 +74,7 @@ public class MethodOfPaymentTypeLocalDataSource implements MethodOfPaymentTypeDa
     }
 
     @Override
-    public void getMethodOfPaymentType(@NonNull String typeId, @NonNull GetMethodOfPaymentTypeCallback callback) {
+    public void getMethodOfPaymentType(@NonNull int typeId, @NonNull GetMethodOfPaymentTypeCallback callback) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] projection = {
@@ -83,7 +83,8 @@ public class MethodOfPaymentTypeLocalDataSource implements MethodOfPaymentTypeDa
 
         // because ID is primary key, it's all we need to search
         String selection = MethodOfPaymentTypeEntry.COLUMN_NAME_METHODOFPAYMENTTYPEID + " LIKE ?";
-        String[] selectionArgs = { typeId };
+        String typeIdStr = String.valueOf(typeId);
+        String[] selectionArgs = { typeIdStr };
 
 
         Cursor c = db.query(MethodOfPaymentTypeEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
@@ -133,12 +134,14 @@ public class MethodOfPaymentTypeLocalDataSource implements MethodOfPaymentTypeDa
         db.close();
     }
 
+
     @Override
-    public void deleteMethodOfPaymentType(@NonNull String typeId) {
+    public void deleteMethodOfPaymentType(@NonNull int typeId) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         String selection = MethodOfPaymentTypeEntry.COLUMN_NAME_METHODOFPAYMENTTYPEID + " LIKE ?";
-        String[] arguments = {typeId};
+        String typeIdStr = String.valueOf(typeId);
+        String[] arguments = {typeIdStr};
 
         db.delete(MethodOfPaymentTypeEntry.TABLE_NAME, selection, arguments);
 

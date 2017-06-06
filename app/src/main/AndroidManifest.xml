@@ -21,6 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.analytics.AnalyticsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
 
         <!-- Google API key & user permissions -->
         <meta-data
