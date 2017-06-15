@@ -1,5 +1,6 @@
 package com.example.francescovalela.trkr.ui.analytics;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -22,6 +23,7 @@ import com.example.francescovalela.trkr.R;
 import com.example.francescovalela.trkr.logExpense.models.Category;
 import com.example.francescovalela.trkr.logExpense.models.Expense;
 import com.example.francescovalela.trkr.logExpense.models.MethodOfPayment;
+import com.example.francescovalela.trkr.ui.addExpense.AddExpenseActivity;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -42,18 +44,13 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static android.R.attr.data;
-import static android.R.attr.key;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
-import static android.media.CamcorderProfile.get;
 import static android.support.test.espresso.core.deps.guava.base.Preconditions.checkNotNull;
-import static com.example.francescovalela.trkr.R.id.cost;
+
+//TODO refactor class
 
 /**
  * Created by francescovalela on 2017-02-28.
@@ -76,8 +73,6 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
 
     private RelativeLayout analyticsMainLayout;
     private LineChart mLineChart;
-    private float[] yAxisLabels = {5,10,15,20,25};
-    private String[] xAxisLabels = {"05-17-17", "05-18-17", "05-19-17", "05-20-17", "05-21-17", "05-22-17", "05-23-17"};
     private List<Entry> entries;
     private LineDataSet dataSet;
     private LineData lineData;
@@ -114,6 +109,17 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
 
         createLineChart();
 
+        //Button: view analytics activity
+        Button buttonViewAnalytics = (Button) RootView.findViewById(R.id.view_addExpense);
+        buttonViewAnalytics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent viewAddExpenseActivity = new Intent(getActivity(), AddExpenseActivity.class);
+
+                startActivity(viewAddExpenseActivity);
+            }
+        });
+
         return RootView;
 
     }
@@ -121,9 +127,9 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
     public void loadSpinnerData() {
 
         List<String> differentDataToChart = new ArrayList<>();
-        differentDataToChart.add("Total Expenses");
-        differentDataToChart.add("Methods of Payment");
         differentDataToChart.add("Categories");
+        differentDataToChart.add("Methods of Payment");
+        differentDataToChart.add("Total Expenses");
 
         //Populate spinner for different chart data
         Spinner spinner = (Spinner) RootView.findViewById(R.id.analytics_chart_spinner);
@@ -135,6 +141,7 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
         chartAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(chartAdapter);
     }
+
     //called when a chart is chosen from the spinner
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -142,17 +149,17 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
 
         Spinner spinnerSelected = (Spinner) parent;
 
-        if (parent.getItemAtPosition(position).equals("Methods of Payment")) {
+        if (spinnerSelected.getItemAtPosition(position).equals("Methods of Payment")) {
             titleTV.setText("By Methods of Payment");
             mLineChart.setVisibility(View.GONE);
             createPieChartMethodOfPayment(mapOfMethodOfPaymentCosts());
             whatChartIsDisplaying = "Method of Payment";
-        } else if (parent.getItemAtPosition(position).equals("Categories")) {
+        } else if (spinnerSelected.getItemAtPosition(position).equals("Categories")) {
             titleTV.setText("Categories");
             mLineChart.setVisibility(View.GONE);
             createPieChartCategory(mapOfCategoryCosts());
             whatChartIsDisplaying = "Category";
-        } else if (parent.getItemAtPosition(position).equals("Total Expenses")) {
+        } else if (spinnerSelected.getItemAtPosition(position).equals("Total Expenses")) {
             titleTV.setText("Total Expenses");
             mPieChart.setVisibility(View.GONE);
             createLineChart();
@@ -168,13 +175,14 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
     public void setPresenter(AnalyticsContract.Presenter presenter) {
         mAnalyticsPresenter = checkNotNull(presenter);
     }
+
     private void createLineChart() {
         mLineChart.setVisibility(View.VISIBLE);
         entries = new ArrayList<Entry>();
 
         List<String> xDateList = new ArrayList<>();
         DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-        for (int i = 0; i<mExpenses.size(); i++) {
+        for (int i = 0; i < mExpenses.size(); i++) {
             if (!xDateList.contains(mExpenses.get(i).getDate()))
                 xDateList.add(df.format(mExpenses.get(i).getDate()));
         }
@@ -183,13 +191,12 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
         xDateValues = xDateList.toArray(xDateValues);
 
         float tempFloat;
-        for (int i = 0; i<mExpenses.size(); i++) {
+        for (int i = 0; i < mExpenses.size(); i++) {
             tempFloat = (float) mExpenses.get(i).getCost();
-            entries.add(new Entry(i,tempFloat));
+            entries.add(new Entry(i, tempFloat));
         }
 
         LineDataSet dataSet = new LineDataSet(entries, "Total Cost");
-
         //styling
         lineChartStyling(dataSet);
         YAxis leftAxis = mLineChart.getAxisLeft();
@@ -208,6 +215,8 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
         });
         mLineChart.getXAxis().enableGridDashedLine(10f, 10f, 0f); // enables dashed lines for grid
         mLineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        mLineChart.getXAxis().setLabelRotationAngle(-45);
+        mLineChart.getXAxis().setGranularity(1f); // restrict interval to 1 (minimum)
         mLineChart.getAxisRight().setEnabled(false); //disables right axis labels
         mLineChart.getDescription().setEnabled(false);
         mLineChart.setDrawGridBackground(true); // enables background color
@@ -258,9 +267,10 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
     public void getCategoriesData(List<Category> categories) {
         mCategories = new ArrayList<>(categories);
     }
+
     //populates list with loaded methods of payment
     public void getMethodOfPaymentsData(List<MethodOfPayment> methodOfPayments) {
-       mMethodOfPayments = new ArrayList<>(methodOfPayments);
+        mMethodOfPayments = new ArrayList<>(methodOfPayments);
     }
 
     @Override
@@ -287,7 +297,7 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
 
         for (Category category : mCategories) {
             if (categoryCosts.get(category.getName()) == 0)
-            categoryCosts.remove(category.getName());
+                categoryCosts.remove(category.getName());
         }
 
         return categoryCosts;
@@ -325,11 +335,7 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
 
         double temp = 0;
         int count = 0;
-//        for (String key : dataKey) { //key isn't cost.
-//            temp = dataToShow.get(key);
-//            yData[count] = (float) temp;
-//            count++;
-//        }
+
         for (String name : dataKey) {
             temp = dataToShow.get(name);
             xData[count] = name;
@@ -349,11 +355,11 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
         //add colors to dataset
         ArrayList<Integer> colors = new ArrayList<>();
 
-        colors.add(Color.argb(255, 250,205,205));
-        colors.add(Color.argb(255, 248,250,205));
-        colors.add(Color.argb(255, 210,250,205));
-        colors.add(Color.argb(255, 205,250,236));
-        colors.add(Color.argb(255, 236,205,250));
+        colors.add(Color.argb(255, 250, 205, 205));
+        colors.add(Color.argb(255, 248, 250, 205));
+        colors.add(Color.argb(255, 210, 250, 205));
+        colors.add(Color.argb(255, 205, 250, 236));
+        colors.add(Color.argb(255, 236, 205, 250));
         colors.add(Color.BLUE);
         colors.add(Color.RED);
         colors.add(Color.GREEN);
@@ -378,8 +384,8 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
                 int pos1 = e.toString().indexOf("y:");
                 String totalExpenses = e.toString().substring(pos1 + 2);
 
-                for (int i = 0; i<yData.length; i++) {
-                    if(yData[i] == Float.parseFloat(totalExpenses)) {
+                for (int i = 0; i < yData.length; i++) {
+                    if (yData[i] == Float.parseFloat(totalExpenses)) {
                         String test = "test: " + String.valueOf(yData[i]) + "\n" + xData[i];
                         Log.d(TAG, test);
                         pos1 = i;
@@ -387,58 +393,7 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
                     }
                 }
                 String categoryName = xData[pos1];
-                Snackbar.make(RootView,  whatChartIsDisplaying + ": " + categoryName + " - $" + totalExpenses, Snackbar.LENGTH_SHORT).show();
-
-            }
-
-            @Override
-            public void onNothingSelected() {
-
-            }
-        });
-    }
-
-    private void updateDataLineChart() {
-
-    }
-
-    private void updateDataPieChart() {
-
-    }
-    private void showLineChart(View view) {
-        mPieChart.setVisibility(View.GONE);
-        createLineChart();
-    }
-
-    public void showPieChart(final View view) {
-        mLineChart.setVisibility(View.GONE);
-        //createPieChartCategory(); //todo add this line
-//        entries.add(new Entry(8, 115));
-//        dataSet = new LineDataSet(entries, "Expenses");
-//        lineChartStyling(dataSet);
-//        lineData = new LineData(dataSet);
-//        mLineChart.setData(lineData);
-//        mLineChart.invalidate();
-
-        mPieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
-            @Override
-            public void onValueSelected(Entry e, Highlight h) {
-                Log.d(TAG, "onValueSelected: Value select from chart.");
-                Log.d(TAG, "onValueSelected: " + e.toString());
-                Log.d(TAG, "onValueSelected: " + h.toString());
-                int pos1 = e.toString().indexOf("y:");
-                String sales = e.toString().substring(pos1 + 2);
-
-                for (int i = 0; i<yData.length; i++) {
-                    if(yData[i] == Float.parseFloat(sales)) {
-                        String test = "test: " + String.valueOf(yData[i]) + "\n" + xData[i];
-                        Log.d(TAG, test);
-                        pos1 = i;
-                        break;
-                    }
-                }
-                String employee = xData[pos1];
-                Snackbar.make(view,  "Category: " + employee + " // Sales: $" + sales + "K", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(RootView, whatChartIsDisplaying + ": " + categoryName + " - $" + totalExpenses, Snackbar.LENGTH_SHORT).show();
 
             }
 
@@ -450,8 +405,9 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
     }
 
     private void lineChartStyling(LineDataSet dataSetPassed) {
-        dataSetPassed.setCircleColorHole(Color.LTGRAY);
-        dataSetPassed.setColor(Color.BLUE);
+        dataSetPassed.setDrawFilled(true);
+        dataSetPassed.setCircleColorHole(Color.DKGRAY);
+        dataSetPassed.setColor(Color.CYAN);
         dataSetPassed.setValueTextColor(1);
     }
 }

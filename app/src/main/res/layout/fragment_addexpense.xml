@@ -183,6 +183,7 @@
 
     </LinearLayout>
 
+
     <!-- for buttons -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -190,6 +191,15 @@
         android:gravity="end|bottom">
 
         <!-- to reset expense fields -->
+        <Button
+            android:id="@+id/view_analytics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:gravity="start|bottom"
+            android:text="Charts"
+            android:textAlignment="center" />
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_resetFields_expense"
             android:layout_width="wrap_content"

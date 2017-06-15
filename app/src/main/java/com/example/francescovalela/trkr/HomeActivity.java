@@ -49,7 +49,7 @@ public class HomeActivity extends AppCompatActivity {
     public void logExpense(View view) {
 
 //        Intent LogExpenseScreenIntent = new Intent(this,AnalyticsActivity.class);
-        Intent LogExpenseScreenIntent = new Intent(this,AnalyticsActivity.class);
+        Intent LogExpenseScreenIntent = new Intent(this,AddExpenseActivity.class);
 
         startActivity(LogExpenseScreenIntent);
 

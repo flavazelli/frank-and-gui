@@ -41,11 +41,11 @@ public class Expense {
         this.categoryId = categoryId;
     }
 
-    public Date getDate() {
+    public long getDate() {
 
         Date currentDate = new Date(date);
 
-        return currentDate;
+        return date;
     }
 
 

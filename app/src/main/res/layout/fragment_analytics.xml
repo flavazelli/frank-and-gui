@@ -45,8 +45,19 @@
         android:id="@+id/analytics_chart_spinner"
         android:gravity="bottom"
         android:textSize="14sp"
+        android:layout_marginBottom="42dp"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/view_addExpense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:text="Add Expense"
+        android:textAlignment="center"
+        android:layout_alignTop="@+id/analytics_chart_spinner"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp" />
+        android:layout_marginTop="24dp" />
 
 </RelativeLayout>

@@ -16,6 +16,7 @@ import com.example.francescovalela.trkr.R;
 import com.example.francescovalela.trkr.logExpense.models.Expense;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -122,7 +123,8 @@ public class ViewExpensesFragment extends ListFragment
             TextView costTextView = (TextView) convertView.findViewById(R.id.cost);
             TextView categoryTextView = (TextView) convertView.findViewById(R.id.category);
 
-            dateTextView.setText(e.getDate().toString());
+            Date date = new Date(e.getDate());
+            dateTextView.setText(date.toString());
             costTextView.setText(String.valueOf(e.getCost()));
             //TODO: create category methods in expense
             categoryTextView.setText(e.getName());

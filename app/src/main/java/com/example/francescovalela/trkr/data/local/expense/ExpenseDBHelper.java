@@ -43,11 +43,9 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
             ExpenseEntry.COLUMN_NAME_METHODOFPAYMENTID + ", " +
             ExpenseEntry.COLUMN_NAME_CATEGORYID + ", " +
             ExpenseEntry.COLUMN_NAME_DATE + ") " +
-            " VALUES ('1', 12.49, -70, 70, 2, 1, 0), " +
-            "('2', 42.40, -70, 70, 2, 3, 0), " +
-            "('3', 62.41, -70, 70, 2, 2, 1), " +
-            "('4', 12.43, -70, 70, 3, 1, 3), " +
-            "('5', 82.47, -70, 70, 1, 3, 2)";
+            " VALUES ('1', 32.49, -70, 70, 1, 1, 1496980800000), " +
+            "('2', 42.40, -70, 70, 2, 3, 1497240000000), " +
+            "('3', 62.41, -70, 70, 3, 2, 1497326400000)";
 
     public ExpenseDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -55,7 +53,7 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
 
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_ENTRIES_EXPENSE);
-        //db.execSQL(INSERT_DEFAULT_DATA);
+        db.execSQL(INSERT_DEFAULT_DATA);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

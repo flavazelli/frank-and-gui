@@ -1,5 +1,6 @@
 package com.example.francescovalela.trkr.ui.addExpense;
 
+import android.app.Activity;
 import android.support.v4.app.*;
 import android.support.v4.widget.*;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 import com.example.francescovalela.trkr.R;
 import com.example.francescovalela.trkr.logExpense.models.Category;
 import com.example.francescovalela.trkr.logExpense.models.MethodOfPayment;
+import com.example.francescovalela.trkr.ui.analytics.AnalyticsActivity;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
@@ -43,7 +46,7 @@ import static android.support.test.espresso.core.deps.guava.base.Preconditions.c
  * Created by francescovalela on 2017-04-04.
  */
 
-public class AddExpenseFragment extends Fragment implements AddExpenseContract.View, AdapterView.OnItemSelectedListener {
+public class AddExpenseFragment extends Fragment implements AddExpenseContract.View {
 
     private String name;
     private double cost, locationLong, locationLat;
@@ -112,6 +115,18 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
 
         mAddExpensePresenter.loadMethodOfPaymentInSpinner();
         mAddExpensePresenter.loadCategoriesInSpinner();
+
+
+        //Button: view analytics activity
+        Button buttonViewAnalytics = (Button) RootView.findViewById(R.id.view_analytics);
+        buttonViewAnalytics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent viewAnalyticsActivity = new Intent(getActivity(),AnalyticsActivity.class);
+
+                startActivity(viewAnalyticsActivity);
+            }
+        });
 
         //FAB: Submit
         FloatingActionButton fabSubmit = (FloatingActionButton) RootView.findViewById(R.id.fab_submit_expense);
@@ -198,7 +213,24 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
         //Populate spinner for category types
         spinnerCategory = (Spinner) RootView.findViewById(R.id.expense_category_spinner);
 
-        spinnerCategory.setOnItemSelectedListener(this);
+        spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+            //called when a category spinner is selected
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                for (Category category : categoryList) {
+                    if (category.getName() == parent.getItemAtPosition(position)) {
+                        setCategoryId(category.getId());
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Log.d("TAG", "fuck you");
+            }
+        });
 
         //Columns from DB to put into spinner
         //potentially not needed
@@ -224,7 +256,24 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
         //Populate spinner for methodofpayment types
         spinnerMethodOfPayment = (Spinner) RootView.findViewById(R.id.expense_methodOfPayment_spinner);
 
-        spinnerMethodOfPayment.setOnItemSelectedListener(this);
+        spinnerMethodOfPayment.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener(){
+
+            //called when a method of payment spinner is selected
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                for (MethodOfPayment methodOfPayment : methodOfPaymentList) {
+                    if (methodOfPayment.getNickname() == parent.getItemAtPosition(position)) {
+                        setMethodOfPaymentId(methodOfPayment.getId());
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         //Columns from DB to put into spinner
         //potentially not needed
@@ -234,41 +283,6 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
         ArrayAdapter<String> methodOfPaymentAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, methodOfPaymentToShow);
         methodOfPaymentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMethodOfPayment.setAdapter(methodOfPaymentAdapter);
-    }
-
-    //called when a category or method of payment spinner is selected
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-        Spinner spinnerSelected = (Spinner) parent;
-
-        if (spinnerSelected.getId() == R.id.expense_category_spinner) {
-            for (Category category : categoryList) {
-                if (category.getName() == parent.getItemAtPosition(position)) {
-                    setCategoryId(category.getId());
-                    break;
-                }
-            }
-        } else if (spinnerSelected.getId() == R.id.expense_methodOfPayment_spinner) {
-            for (MethodOfPayment methodOfPayment : methodOfPaymentList) {
-                if (methodOfPayment.getNickname() == parent.getItemAtPosition(position)) {
-                    setMethodOfPaymentId(methodOfPayment.getId());
-                    break;
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-        Spinner spinnerSelected = (Spinner) parent;
-
-        if (spinnerSelected.getId() == R.id.expense_category_spinner) {
-            setCategoryId(1);
-        }
-        if (spinnerSelected.getId() == R.id.expense_methodOfPayment_spinner) {
-            setMethodOfPaymentId(1);
-        }
     }
 
     //Called when reset button is clicked
