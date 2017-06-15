@@ -304,7 +304,7 @@ public class AddExpenseFragment extends Fragment implements AddExpenseContract.V
         //Location Reset
         setDefaultLocation();
 
-        //Spinner Reset
+        //Spinner Reset to the 0th index
         spinnerCategory.setSelection(0);
         setCategoryId(0);
         spinnerMethodOfPayment.setSelection(0);
