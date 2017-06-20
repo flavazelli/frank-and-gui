@@ -1,18 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.francescovalela.trkr.HomeActivity"
     tools:showIn="@layout/activity_main">
 
-    <Button
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/log_expense"
-        android:id="@+id/log_expense_button"
-        android:onClick="logExpense"/>
-</RelativeLayout>
+        android:layout_marginBottom="80dp"
+        android:layout_marginTop="80dp">
+
+        <pl.bclogic.pulsator4droid.library.PulsatorLayout
+            android:id="@+id/pulsator"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:layout_gravity="center"
+            app:pulse_color="@color/colorAccent"
+            app:pulse_count="1"
+            app:pulse_duration="2250"
+            app:pulse_interpolator="Decelerate"
+            app:pulse_repeat="0"
+            app:pulse_startFromScratch="true">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/log_expense_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="70dp"
+                android:layout_marginEnd="70dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="70dp"
+                android:onClick="logExpense" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:alpha="0.6"
+                android:elevation="16dp"
+                android:src="@drawable/logs" />
+
+
+        </pl.bclogic.pulsator4droid.library.PulsatorLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="100dp"
+            app:srcCompat="@drawable/test_logo" />
+    </FrameLayout>
+
+</LinearLayout>
