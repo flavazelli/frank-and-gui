@@ -6,11 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
-    android:layout_marginLeft="10dp">
+    android:layout_marginLeft="10dp"
+    android:weightSum="1">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
@@ -18,7 +19,7 @@
             android:layout_height="match_parent"
             android:textAlignment="center"
             android:text="Log An Expense"
-            android:textSize="14sp"
+            android:textSize="24sp"
             android:textStyle="bold"/>
 
     </LinearLayout>
@@ -26,36 +27,42 @@
     <!-- name attribute -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:gravity="left">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="left"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name"/>
+            android:text="Name"
+            android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/expense_name_edit_text"
             android:layout_width="185dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:maxLines="1"
             android:inputType="text"
-            android:id="@+id/expense_name_edit_text"
-            android:textSize="14sp"/>
+            android:maxLines="1"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
     <!-- cost attribute -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:gravity="left">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="20sp"
             android:text="Cost"/>
 
         <EditText
@@ -65,7 +72,7 @@
             android:maxLines="1"
             android:inputType="text"
             android:id="@+id/expense_cost_edit_text"
-            android:textSize="14sp"/>
+            android:textSize="16sp"/>
 
     </LinearLayout>
 
@@ -74,11 +81,14 @@
         android:layout_width="match_parent"
         android:layout_height="25dp"
         android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:gravity="start">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="20sp"
             android:text="@string/date" />
 
         <TextView
@@ -94,7 +104,9 @@
     <!-- button to display date fragment -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
 
         <Button
             android:layout_width="wrap_content"
@@ -108,19 +120,21 @@
     <!-- location attribute -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal"
         android:gravity="start">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="20sp"
             android:text="@string/addexpense_location_TV"/>
 
         <TextView
-            android:layout_width="185dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_width="224dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="45dp"
             android:id="@+id/expense_location_text_view"
             android:textSize="14sp"/>
 
@@ -130,10 +144,11 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="10dp">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:textSize="14sp"
             android:id="@+id/expense_location_button"
             android:onClick="showLocationPickerFragment"
             android:text="@string/expense_pick_location_button"
@@ -144,13 +159,16 @@
     <!-- method of payment attribute -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal"
         android:gravity="left">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="20sp"
             android:text="Method of payment"/>
 
         <Spinner
@@ -158,36 +176,40 @@
             android:layout_marginLeft="15dp"
             android:layout_height="wrap_content"
             android:id="@+id/expense_methodOfPayment_spinner"
-            android:textSize="14sp"/>
+            android:textSize="16sp"/>
 
     </LinearLayout>
 
     <!-- category attribute -->
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Category"/>
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="Category"
+        android:textSize="20sp" />
 
-        <Spinner
-            android:id="@+id/expense_category_spinner"
-            android:layout_width="185dp"
-            android:layout_height="wrap_content"
+    <Spinner
+        android:id="@+id/expense_category_spinner"
+        android:layout_width="185dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="108dp"
+        android:textSize="16sp" />
 
-            android:layout_marginLeft="15dp"
-            android:textSize="14sp" />
+</LinearLayout>
 
-    </LinearLayout>
-
-
-    <!-- for buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:gravity="end|bottom">
 
         <!-- to reset expense fields -->
@@ -196,9 +218,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
+            android:layout_marginRight="10dp"
             android:gravity="start|bottom"
             android:text="Charts"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="14sp" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_resetFields_expense"
@@ -209,7 +233,7 @@
             android:layout_marginRight="10dp"
             android:src="@android:drawable/ic_menu_revert"
             app:elevation="@dimen/fab_elevation"
-            />
+            app:fabSize="normal" />
 
         <!-- We need the frame layout to set the margin between FABs-->
         <FrameLayout
@@ -223,13 +247,18 @@
                 android:id="@+id/fab_submit_expense"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
                 android:layout_marginBottom="@dimen/fab_margin"
                 android:layout_marginEnd="@dimen/fab_margin"
                 android:layout_marginRight="@dimen/fab_margin"
-                android:layout_gravity="bottom|end"
                 android:src="@android:drawable/btn_star"
+                app:elevation="@dimen/fab_elevation"
+                app:fabSize="normal"
                 />
         </FrameLayout>
     </LinearLayout>
+
+
+    <!-- for buttons -->
 
 </LinearLayout>

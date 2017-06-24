@@ -235,6 +235,7 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
         mPieChart.setVisibility(View.VISIBLE);
         mPieChart.getDescription().setText("Category Cost in Percent");
         mPieChart.getDescription().setTextSize(14f);
+        mPieChart.getDescription().setPosition(1350f, 1150f);
         mPieChart.setRotationEnabled(true);
         mPieChart.setDrawEntryLabels(false);
         mPieChart.getLegend().setEnabled(false);
@@ -393,7 +394,7 @@ public class AnalyticsFragment extends Fragment implements AnalyticsContract.Vie
                     }
                 }
                 String categoryName = xData[pos1];
-                Snackbar.make(RootView, whatChartIsDisplaying + ": " + categoryName + " - $" + totalExpenses, Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(RootView, whatChartIsDisplaying + ": " + categoryName + " - $" + totalExpenses, Snackbar.LENGTH_LONG).show();
 
             }
 

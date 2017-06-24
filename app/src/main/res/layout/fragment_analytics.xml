@@ -4,15 +4,15 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="20dp"
-    android:layout_marginLeft="10dp">
+    android:layout_marginBottom="20dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="Analytics"
         android:textColorHint="@color/colorPrimaryDark"
-        android:textSize="25sp"
+        android:textSize="24sp"
         android:id="@+id/analytics_title_textView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Total Cost"
-        android:textSize="15sp"
+        android:textSize="16sp"
         android:id="@+id/analytics_subtitle_textView"
         android:layout_below="@+id/analytics_title_textView"
         android:layout_centerHorizontal="true" />
@@ -31,21 +31,27 @@
         android:layout_below="@+id/analytics_subtitle_textView"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:layout_alignBottom="@+id/piechart" />
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/piechart"
         android:layout_width="match_parent"
         android:layout_height="385dp"
-        android:layout_below="@+id/analytics_subtitle_textView" />
+        android:layout_below="@+id/analytics_subtitle_textView"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" />
 
     <Spinner
         android:layout_width="215dp"
         android:layout_height="wrap_content"
         android:id="@+id/analytics_chart_spinner"
         android:gravity="bottom"
-        android:textSize="14sp"
-        android:layout_marginBottom="42dp"
+        android:textSize="20sp"
+        android:layout_marginBottom="122dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
@@ -56,8 +62,8 @@
         android:gravity="bottom"
         android:text="Add Expense"
         android:textAlignment="center"
-        android:layout_alignTop="@+id/analytics_chart_spinner"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp" />
+        android:layout_marginBottom="25dp" />
 
 </RelativeLayout>
