@@ -14,12 +14,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="60dp"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="140dp">
 
         <pl.bclogic.pulsator4droid.library.PulsatorLayout
             android:id="@+id/pulsator"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="325dp"
+            android:layout_height="325dp"
             android:layout_gravity="center"
             app:pulse_color="@color/colorAccent"
             app:pulse_count="1"
@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="30dp"
             android:layout_marginLeft="60dp"
             android:layout_marginRight="60dp"
             app:srcCompat="@drawable/test_logo" />
