@@ -13,7 +13,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="40dp"
         android:layout_marginTop="80dp">
 
         <pl.bclogic.pulsator4droid.library.PulsatorLayout
@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="40dp"
             app:srcCompat="@drawable/test_logo" />
     </FrameLayout>
 
