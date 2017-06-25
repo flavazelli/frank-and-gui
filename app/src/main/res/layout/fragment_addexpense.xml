@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
-    android:layout_marginLeft="10dp"
+    android:layout_marginLeft="15dp"
     android:weightSum="1">
 
     <LinearLayout
@@ -41,9 +41,9 @@
 
         <EditText
             android:id="@+id/expense_name_edit_text"
-            android:layout_width="185dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="30dp"
             android:inputType="text"
             android:maxLines="1"
             android:textSize="16sp" />
@@ -66,9 +66,9 @@
             android:text="Cost"/>
 
         <EditText
-            android:layout_width="185dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="42dp"
             android:maxLines="1"
             android:inputType="text"
             android:id="@+id/expense_cost_edit_text"
@@ -94,7 +94,7 @@
         <TextView
             android:layout_width="185dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="42dp"
             android:id="@+id/expense_date_text_view"
             android:onClick="showDatePickerDialog"
             android:textSize="14sp"/>
@@ -181,7 +181,6 @@
     </LinearLayout>
 
     <!-- category attribute -->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
