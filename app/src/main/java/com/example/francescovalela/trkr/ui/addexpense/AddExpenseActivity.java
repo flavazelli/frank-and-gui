@@ -8,7 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.example.francescovalela.trkr.R;
@@ -25,7 +27,7 @@ import java.util.Date;
  * Created by flavazelli on 2017-02-28.
  */
 
-public class AddExpenseActivity extends AppCompatActivity implements AddExpenseDateFragment.TheListener{
+public class AddExpenseActivity extends AppCompatActivity implements AddExpenseDateFragment.TheListener, View.OnTouchListener {
 
     private long date;
 
@@ -35,12 +37,15 @@ public class AddExpenseActivity extends AppCompatActivity implements AddExpenseD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addexpense);
 
+        //hides soft keyboard once clicking outside editText
+        findViewById(R.id.addexpense_fragmentPlaceholder).setOnTouchListener(this);
+
         //Fragment Manager
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Fragment mAddExpenseFragment = new AddExpenseFragment();
-        fragmentTransaction.add(R.id.fragmentPlaceholder, mAddExpenseFragment).commit();
+        fragmentTransaction.add(R.id.addexpense_fragmentPlaceholder, mAddExpenseFragment).commit();
 
         ExpenseRepository mExpenseRepository = ExpenseRepository.getInstance(ExpenseLocalDataSource.getInstance(getApplicationContext()));
 
@@ -81,5 +86,13 @@ public class AddExpenseActivity extends AppCompatActivity implements AddExpenseD
 
     public void setDate(long date) {
         this.date = date;
+    }
+
+    //hides soft keyboard once clicking outside editText
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        return false;
     }
 }

@@ -24,14 +24,14 @@ public class AnalyticsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_analytics);
+        setContentView(R.layout.activity_fragment);
 
         //Fragment Manager
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Fragment mAnalyticsFragment = new AnalyticsFragment();
-        fragmentTransaction.add(R.id.fragmentPlaceholderAnalytics, mAnalyticsFragment).commit();
+        fragmentTransaction.add(R.id.fragment_container, mAnalyticsFragment).commit();
 
         ExpenseRepository mExpenseRepository = ExpenseRepository.getInstance(ExpenseLocalDataSource.getInstance(getApplicationContext()));
 

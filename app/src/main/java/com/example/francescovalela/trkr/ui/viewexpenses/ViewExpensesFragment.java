@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.francescovalela.trkr.R;
 import com.example.francescovalela.trkr.logExpense.models.Expense;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
