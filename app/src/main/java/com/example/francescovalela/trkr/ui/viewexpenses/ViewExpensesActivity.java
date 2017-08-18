@@ -1,18 +1,17 @@
 package com.example.francescovalela.trkr.ui.viewexpenses;
 
 import com.example.francescovalela.trkr.R;
-import android.app.Activity;
+
 import android.os.Bundle;
-import android.app.FragmentManager;
-import android.util.Log;
-import static android.content.ContentValues.TAG;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 
 
 /**
  * Created by flavazelli on 2017-02-28.
  */
 
-public class ViewExpensesActivity extends Activity {
+public class ViewExpensesActivity extends FragmentActivity {
 
     private ViewExpensesPresenter mViewExpensesPresenter;
 
@@ -21,7 +20,7 @@ public class ViewExpensesActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
 
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         ViewExpensesFragment fragment = (ViewExpensesFragment) fm.findFragmentById(R.id.fragment_container);
 
         if (fragment == null) {

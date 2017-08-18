@@ -1,11 +1,12 @@
 package com.example.francescovalela.trkr.ui.viewexpenses;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 
 import com.example.francescovalela.trkr.R;
 import com.example.francescovalela.trkr.logExpense.models.Expense;
+
+import java.util.Date;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -29,7 +32,6 @@ public class ViewExpensesFragment extends Fragment
     private RecyclerView mExpenseRecyclerView;
 
     ViewExpensesContract.Presenter mPresenter;
-    private ExpensesAdapter mExpenseAdapter;
 
     public ViewExpensesFragment() {
         // Requires empty public constructor
@@ -43,6 +45,7 @@ public class ViewExpensesFragment extends Fragment
 
     @Override
     public void onCreate (Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
     };
 
@@ -103,7 +106,7 @@ public class ViewExpensesFragment extends Fragment
     }
 
     private void updateUI(List<Expense> expenses) {
-        mExpenseAdapter = new ExpensesAdapter(expenses);
+        ExpensesAdapter mExpenseAdapter = new ExpensesAdapter(expenses);
         mExpenseRecyclerView.setAdapter(mExpenseAdapter);
     }
 
@@ -114,27 +117,29 @@ public class ViewExpensesFragment extends Fragment
 
         private TextView mTitleTextView;
         private TextView mCostTextView;
+        private TextView mDateTextView;
 
-        public ExpenseHolder(View itemView) {
+        private ExpenseHolder(View itemView) {
             super(itemView);
 
             itemView.setOnClickListener(this);
 
             mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_expense_title);
             mCostTextView = (TextView) itemView.findViewById(R.id.list_item_expense_cost);
+            mDateTextView = (TextView) itemView.findViewById(R.id.list_item_expense_date);
+
         }
 
-        public void bindExpense(Expense expense) {
+        private void bindExpense(Expense expense) {
             mExpense = expense;
-            mTitleTextView.setText(expense.getName());
-            mCostTextView.setText("$" + expense.getCost());
+            mTitleTextView.setText(getString(R.string.expense_description,expense.getName()));
+            mCostTextView.setText(getString(R.string.expense_cost,expense.getCost()));
+            mDateTextView.setText(DateFormat.format("EEE, MMM d, yyyy", new Date()));
         }
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(getActivity(),
-                    mExpense.getName() + " clicked!", Toast.LENGTH_SHORT)
-                    .show();
+            mExpense.getExpenseId();
         }
     }
 
