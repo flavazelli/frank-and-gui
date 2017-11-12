@@ -13,6 +13,10 @@
         <activity
             android:name=".HomeActivity"
             android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.addExpense.AddExpenseActivity"
@@ -22,10 +26,6 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".ui.viewexpenses.ViewExpensesActivity"
                 android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <!-- Google API key & user permissions -->
         <meta-data
