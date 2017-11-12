@@ -9,4 +9,6 @@
     <string name="expense_pick_location_button">pick a location</string>
     <string name="date">Date</string>
     <string name="addexpense_location_TV">Location</string>
+    <string name="expense_description">Description: %1s</string>
+    <string name="expense_cost">Cost: $%1$.2f</string>
 </resources>

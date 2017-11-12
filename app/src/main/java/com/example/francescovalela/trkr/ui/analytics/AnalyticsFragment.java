@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -49,8 +48,6 @@ import java.util.Map;
 import java.util.Set;
 
 import static android.support.test.espresso.core.deps.guava.base.Preconditions.checkNotNull;
-
-//TODO refactor class
 
 /**
  * Created by francescovalela on 2017-02-28.
